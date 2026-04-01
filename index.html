@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>PRAJAPATI CYCLE & HARDWARE | Bill System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
+      }
+    }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Login Page Styles */
+    .login-page {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    
+    .bg-animation .circle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 20s infinite linear;
+    }
+    
+    .circle-1 { width: 300px; height: 300px; top: -100px; left: -100px; animation-duration: 25s; }
+    .circle-2 { width: 500px; height: 500px; bottom: -200px; right: -200px; animation-duration: 30s; }
+    .circle-3 { width: 200px; height: 200px; top: 50%; left: 50%; animation-duration: 18s; }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(50px, 30px) rotate(180deg); }
+      100% { transform: translate(0, 0) rotate(360deg); }
+    }
+    
+    .login-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 450px;
+    }
+    
+    .brand {
+      text-align: center;
+      margin-bottom: 30px;
+      animation: fadeInDown 0.8s ease;
+    }
+    
+    .brand h1 {
+      font-size: 28px;
+      color: white;
+      letter-spacing: 1px;
+      text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .brand h1 i { margin-right: 10px; color: #f5cb5c; }
+    .brand p { color: rgba(255, 255, 255, 0.9); font-size: 13px; margin-top: 8px; letter-spacing: 1px; }
+    
+    .card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease;
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .card-header h2 { color: #f5cb5c; font-size: 24px; font-weight: 600; }
+    .card-header p { color: rgba(255, 255, 255, 0.7); font-size: 14px; margin-top: 8px; }
+    .card-body { padding: 35px; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; color: #64748b; margin-bottom: 8px; letter-spacing: 0.5px; }
+    
+    .input-wrapper { position: relative; }
+    .input-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; }
+    .input-wrapper input { width: 100%; padding: 14px 16px 14px 48px; border: 2px solid #e2e8f0; border-radius: 16px; font-family: 'Poppins', sans-serif; font-size: 14px; transition: all 0.3s ease; }
+    .input-wrapper input:focus { outline: none; border-color: #f5cb5c; box-shadow: 0 0 0 3px rgba(245, 203, 92, 0.2); }
+    
+    .btn { width: 100%; padding: 14px; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; }
+    .btn-primary { background: linear-gradient(135deg, #000000 0%, #2c2c2c 100%); color: #f5cb5c; border: 1px solid rgba(245, 203, 92, 0.3); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
+    .btn-primary:disabled { opacity: 0.7; transform: none; cursor: not-allowed; }
+    
+    .switch-link { text-align: center; margin-top: 20px; font-size: 14px; color: #64748b; }
+    .switch-link a { color: #f5cb5c; text-decoration: none; font-weight: 600; cursor: pointer; }
+    .switch-link a:hover { text-decoration: underline; }
+    
+    .form-container { display: none; }
+    .form-container.active { display: block; animation: fadeIn 0.5s ease; }
+    
+    /* Social Contact Cards */
+    .social-contact {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .social-title {
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+    
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    
+    .social-card {
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid #e2e8f0;
+      text-decoration: none;
+    }
+    
+    .social-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+    }
+    
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: all 0.3s ease;
+    }
+    
+    .social-card:hover .social-icon {
+      transform: scale(1.1);
+    }
+    
+    .social-info {
+      flex: 1;
+    }
+    
+    .social-info .platform {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+      letter-spacing: 0.3px;
+    }
+    
+    .social-info .handle {
+      font-size: 10px;
+      color: #64748b;
+      margin-top: 2px;
+      word-break: break-all;
+    }
+    
+    /* Individual Social Colors */
+    .social-card.whatsapp .social-icon { background: #25d36620; color: #25d366; }
+    .social-card.whatsapp:hover { background: linear-gradient(135deg, #25d36610, #25d36605); border-color: #25d366; }
+    
+    .social-card.instagram .social-icon { background: #e4405f20; color: #e4405f; }
+    .social-card.instagram:hover { background: linear-gradient(135deg, #e4405f10, #e4405f05); border-color: #e4405f; }
+    
+    .social-card.facebook .social-icon { background: #1877f220; color: #1877f2; }
+    .social-card.facebook:hover { background: linear-gradient(135deg, #1877f210, #1877f205); border-color: #1877f2; }
+    
+    .social-card.gmail .social-icon { background: #ea433520; color: #ea4335; }
+    .social-card.gmail:hover { background: linear-gradient(135deg, #ea433510, #ea433505); border-color: #ea4335; }
+    
+    /* Animations */
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    .social-card {
+      animation: fadeInUp 0.5s ease backwards;
+    }
+    .social-card:nth-child(1) { animation-delay: 0.1s; }
+    .social-card:nth-child(2) { animation-delay: 0.2s; }
+    .social-card:nth-child(3) { animation-delay: 0.3s; }
+    .social-card:nth-child(4) { animation-delay: 0.4s; }
+    
+    /* Access Message */
+    .access-message {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #fef9e6, #fff7e0);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #f5cb5c;
+    }
+    
+    .access-message i {
+      font-size: 40px;
+      color: #f5cb5c;
+      margin-bottom: 10px;
+    }
+    
+    .access-message h3 {
+      color: #1e3a2f;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    
+    .access-message p {
+      color: #64748b;
+      font-size: 13px;
+    }
+    
+    /* Bill System Styles */
+    .bill-system {
+      display: none;
+      background: linear-gradient(135deg, #e8eef2 0%, #d4dfe8 100%);
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    /* User Avatar Dropdown */
+    .user-menu {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    
+    .avatar-btn {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #f5cb5c, #d4a017);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      border: 2px solid white;
+    }
+    
+    .avatar-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+    
+    .avatar-btn span {
+      font-size: 20px;
+      font-weight: bold;
+      color: #1e3a2f;
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      width: 260px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+    
+    .dropdown-menu.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .dropdown-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      color: #f5cb5c;
+      border-bottom: 1px solid rgba(245,203,92,0.3);
+    }
+    
+    .dropdown-header .user-email {
+      font-size: 14px;
+      font-weight: 500;
+      word-break: break-all;
+      color: white;
+    }
+    
+    .dropdown-header .user-name {
+      font-size: 12px;
+      color: #f5cb5c;
+      margin-top: 4px;
+    }
+    
+    .dropdown-item {
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      color: #1e293b;
+      font-weight: 500;
+    }
+    
+    .dropdown-item:hover {
+      background: #f1f5f9;
+    }
+    
+    .dropdown-item i {
+      width: 20px;
+      color: #f5cb5c;
+      font-size: 16px;
+    }
+    
+    .dropdown-item.logout {
+      color: #dc2626;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .dropdown-item.logout i {
+      color: #dc2626;
+    }
+    
+    .loading-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9);
+      display: none; justify-content: center; align-items: center; z-index: 9999; flex-direction: column;
+    }
+    .loading-spinner { width: 60px; height: 60px; border: 5px solid #f3f3f3; border-top: 5px solid #25d366; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text { color: white; margin-top: 20px; font-size: 18px; font-weight: 600; }
+    
+    .toast-msg {
+      position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #25d366;
+      color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; z-index: 1000;
+      display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .scroll-top { position: fixed; bottom: 30px; right: 20px; background: #1e3a2f; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 999; }
+    
+    .container { max-width: 1200px; margin: 0 auto; background: #ffffff; border-radius: 32px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; }
+    #bill-content { padding: 35px 35px 25px 35px; background: white; }
+    
+    .bill-header { text-align: center; background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #0a0a0a 100%); margin: -35px -35px 30px -35px; padding: 40px 30px 35px 30px; color: white; border-radius: 0 0 40px 40px; border-bottom: 2px solid rgba(255,215,0,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .bill-header h1 { font-size: 48px; font-family: 'Playfair Display', serif; color: #f5cb5c; margin-bottom: 8px; }
+    .bill-header h1 .amp-normal { font-family: 'Poppins', sans-serif; font-weight: 500; }
+    .brand-tagline { font-size: 14px; opacity: 0.85; letter-spacing: 2px; margin-bottom: 20px; color: #e0e0e0; }
+    .brand-showcase { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 20px 0 10px; }
+    .brand-item { background: rgba(255,255,255,0.08); padding: 6px 14px; border-radius: 40px; font-size: 12px; font-weight: 600; color: #fff; border: 1px solid rgba(245,203,92,0.3); display: inline-flex; align-items: center; gap: 8px; }
+    .brand-item i { color: #f5c542; }
+    .contact-details { font-size: 13px; margin-top: 20px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; color: #e0e0e0; }
+    .contact-details span i { margin-right: 5px; color: #f5cb5c; }
+    .gst-row { margin-top: 12px; font-size: 11px; background: rgba(245,203,92,0.2); color: #f5cb5c; display: inline-block; padding: 5px 18px; border-radius: 40px; font-weight: 800; border: 1px solid rgba(245,203,92,0.4); }
+    
+    .info-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; background: #f8fafc; padding: 22px 24px; border-radius: 24px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+    .info-row div label { font-size: 11px; font-weight: 700; color: #475569; display: block; margin-bottom: 6px; text-transform: uppercase; }
+    .info-row input { width: 100%; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 16px; font-family: 'Poppins', sans-serif; font-size: 14px; }
+    .info-row input:focus { outline: none; border-color: #f5cb5c; }
+    
+    .address-section { background: #f8fafc; border-radius: 24px; padding: 22px 24px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+    .address-section .section-title { font-size: 11px; font-weight: 700; color: #475569; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
+    .address-section .section-title i { color: #f5cb5c; font-size: 14px; }
+    .address-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .address-grid .field-group label { font-size: 11px; font-weight: 600; color: #475569; display: block; margin-bottom: 6px; text-transform: uppercase; }
+    .address-grid input, .address-grid select { width: 100%; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 16px; font-family: 'Poppins', sans-serif; font-size: 14px; background: white; cursor: pointer; }
+    .address-grid input:focus, .address-grid select:focus { outline: none; border-color: #f5cb5c; }
+    .address-grid input[readonly] { background: #f1f5f9; cursor: default; }
+    .pincode-hint { font-size: 10px; color: #64748b; margin-top: 6px; display: flex; align-items: center; gap: 5px; }
+    .pincode-hint i { color: #f5cb5c; }
+    .or-divider { text-align: center; margin: 15px 0; position: relative; font-size: 12px; color: #64748b; }
+    .or-divider:before, .or-divider:after { content: ""; position: absolute; top: 50%; width: 45%; height: 1px; background: #e2e8f0; }
+    .or-divider:before { left: 0; }
+    .or-divider:after { right: 0; }
+    .dropdown-section { background: #fef9e6; border-radius: 20px; padding: 15px; margin-top: 10px; }
+    .pdf-mode .dropdown-section, .pdf-mode .or-divider, .pdf-mode .pincode-hint { display: none !important; }
+    
+    .golden-box { background: linear-gradient(135deg, #fef9e6, #fff7e0); border: 2px solid #f5cb5c; border-radius: 16px; padding: 10px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all 0.2s ease; width: 100%; margin-top: 8px; }
+    .golden-box:hover { background: linear-gradient(135deg, #fff3d6, #ffefcc); transform: translateY(-2px); }
+    .golden-box span { font-weight: 600; color: #1e3a2f; font-size: 13px; }
+    .golden-box i { color: #f5cb5c; font-size: 16px; }
+    .golden-box .value-text { color: #d4a017; font-weight: 800; font-size: 14px; margin-left: auto; background: rgba(245,203,92,0.2); padding: 4px 12px; border-radius: 20px; }
+    
+    .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
+    .modal-content { background: linear-gradient(135deg, #fff, #fef9e6); margin: auto; border-radius: 32px; width: 90%; max-width: 450px; animation: modalSlideIn 0.3s ease; overflow: hidden; }
+    @keyframes modalSlideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { background: linear-gradient(135deg, #000, #1a1a1a); color: #f5cb5c; padding: 20px 24px; display: flex; justify-content: space-between; border-bottom: 2px solid #f5cb5c; }
+    .modal-header h3 { margin: 0; font-size: 20px; }
+    .close-modal { color: #f5cb5c; font-size: 28px; cursor: pointer; }
+    .modal-body { padding: 28px 24px; }
+    .modal-body input { width: 100%; padding: 14px 16px; border: 2px solid #e2e8f0; border-radius: 20px; font-size: 16px; margin-bottom: 20px; }
+    .modal-footer { padding: 16px 24px 24px; display: flex; gap: 12px; justify-content: flex-end; }
+    .modal-btn { padding: 10px 24px; border: none; border-radius: 40px; font-weight: 600; cursor: pointer; }
+    .modal-btn-primary { background: linear-gradient(135deg, #000, #2c2c2c); color: #f5cb5c; border: 1px solid #f5cb5c; }
+    .modal-btn-secondary { background: #e2e8f0; color: #1e293b; }
+    
+    .controls-section { margin-bottom: 20px; }
+    .controls { display: flex; gap: 12px; flex-wrap: wrap; }
+    .controls input { flex: 1; padding: 14px 16px; border: 1.5px solid #e2e8f0; border-radius: 20px; }
+    #addBtn { background: linear-gradient(135deg, #000, #2c2c2c); color: white; border: none; padding: 14px 32px; border-radius: 40px; cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .pdf-mode .controls-section, .pdf-mode .action-area, .pdf-mode .scroll-top { display: none !important; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th { background: #1a1a1a; color: white; padding: 16px 12px; text-align: left; font-size: 13px; }
+    td { padding: 14px 12px; border-bottom: 1px solid #edf2f7; }
+    .delete-col button { background: none; border: none; font-size: 18px; cursor: pointer; color: #dc2626; }
+    .qr-section { margin-top: 20px; text-align: center; padding: 20px; background: #fef9e6; border-radius: 28px; border: 1px solid #f5cb5c; display: none; }
+    .action-area { padding: 28px 35px 35px; background: #fefefe; border-top: 2px solid #f1f5f9; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn-action { border: none; padding: 14px 28px; border-radius: 50px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 12px; color: white; font-size: 15px; }
+    #printBtn { background: linear-gradient(135deg, #2c3e50, #1a2632); }
+    #whatsappBtn { background: linear-gradient(135deg, #25d366, #128C7E); }
+    #savePdfBtn { background: linear-gradient(135deg, #f39c12, #e67e22); }
+    #qrBtn { background: linear-gradient(135deg, #3b4d5c, #1e2a36); }
+    
+    @media print { 
+      .controls-section, .action-area, .delete-col, #qrBtn, #whatsappBtn, #savePdfBtn, .scroll-top, .modal, .dropdown-section, .or-divider, .pincode-hint, .user-menu { display: none !important; } 
+      body { padding: 0; } 
+      #bill-content { padding: 0.4in; }
+      table { page-break-inside: avoid; }
+      tr { page-break-inside: avoid; }
+      thead { display: table-header-group; }
+    }
+    @media (max-width: 680px) { #bill-content { padding: 20px; } .bill-header { margin: -20px -20px 20px -20px; padding: 30px 20px; } .bill-header h1 { font-size: 32px; } .btn-action { padding: 12px 20px; font-size: 13px; } .info-row, .address-grid { grid-template-columns: 1fr; } .social-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- Login Page -->
+<div id="loginPage" class="login-page">
+  <div class="bg-animation">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
+  <div class="login-container">
+    <div class="brand">
+      <h1><i class="fas fa-bicycle"></i> PRAJAPATI CYCLE & HARDWARE</h1>
+      <p>✦ QUALITY PRODUCTS SINCE 1987 | TRUSTED TRADER'S ✦</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h2><i class="fas fa-lock"></i> Welcome Back</h2>
+        <p>Sign in to manage your bills</p>
+      </div>
+      <div class="card-body">
+        <!-- Login Form -->
+        <div id="loginContainer" class="form-container active">
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="loginEmail" placeholder="Enter your email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> PASSWORD</label>
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+          </div>
+          <button class="btn btn-primary" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+          <div class="switch-link">Don't have an account? <a id="showRegister">Contact Admin</a></div>
+        </div>
+        
+        <!-- Contact Admin Section (No Registration Form) -->
+        <div id="registerContainer" class="form-container">
+          <div class="access-message">
+            <i class="fas fa-headset"></i>
+            <h3>Contact Admin for Access</h3>
+            <p>Please reach out to the administrator to get your login credentials</p>
+          </div>
+          
+          <!-- Social Contact Section -->
+          <div class="social-contact">
+            <div class="social-title">
+              <i class="fas fa-phone-alt"></i> Connect with Admin
+            </div>
+            <div class="social-grid">
+              <a href="https://wa.me/917209076462?text=Hi%20Admin%2C%20I%20need%20access%20to%20Prajapati%20Cycle%20Bill%20System" target="_blank" class="social-card whatsapp">
+                <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
+                <div class="social-info">
+                  <div class="platform">Official WhatsApp</div>
+                  <div class="handle">+91 7209076462</div>
+                </div>
+              </a>
+              <a href="https://www.instagram.com/ameer_bhai04?igsh=MTJpOWVkc2lsZ2Eybg==" target="_blank" class="social-card instagram">
+                <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                <div class="social-info">
+                  <div class="platform">Official Instagram</div>
+                  <div class="handle">@ameer_bhai04</div>
+                </div>
+              </a>
+              <a href="https://www.facebook.com/share/1EAqmF3RrR/" target="_blank" class="social-card facebook">
+                <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
+                <div class="social-info">
+                  <div class="platform">Official Facebook</div>
+                  <div class="handle">Prajapati Cycle</div>
+                </div>
+              </a>
+              <a href="mailto:ameeralam875730@gmail.com?subject=Prajapati%20Cycle%20Bill%20System%20Access&body=Hi%20Admin%2C%20I%20need%20access%20to%20the%20bill%20system.%20Please%20provide%20my%20login%20credentials." target="_blank" class="social-card gmail">
+                <div class="social-icon"><i class="fas fa-envelope"></i></div>
+                <div class="social-info">
+                  <div class="platform">Official Gmail</div>
+                  <div class="handle">ameeralam875730</div>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div class="switch-link">Already have an account? <a id="showLogin">Login</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bill System -->
+<div id="billSystem" class="bill-system">
+  <!-- User Menu - Avatar with Dropdown -->
+  <div class="user-menu">
+    <div class="avatar-btn" id="avatarBtn">
+      <span id="avatarInitial">U</span>
+    </div>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-header">
+        <div class="user-email" id="dropdownEmail">user@example.com</div>
+        <div class="user-name">Prajapati Cycle</div>
+      </div>
+      <div class="dropdown-item logout" id="logoutDropdownBtn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div><div class="loading-text" id="loadingText">Generating PDF Bill... 📄</div></div>
+  <div class="toast-msg" id="toastMsg">✅ PDF Saved Successfully!</div>
+
+  <div id="modalNoModal" class="modal"><div class="modal-content"><div class="modal-header"><h3><i class="fas fa-tag"></i> Modal Number</h3><span class="close-modal" data-modal="modalNoModal">&times;</span></div><div class="modal-body"><input type="text" id="modalModalNo" placeholder="Enter Modal Number"></div><div class="modal-footer"><button class="modal-btn modal-btn-secondary" id="cancelModalNoBtn">Cancel</button><button class="modal-btn modal-btn-primary" id="saveModalNoBtn">Save</button></div></div></div>
+  <div id="srModal" class="modal"><div class="modal-content"><div class="modal-header"><h3><i class="fas fa-hashtag"></i> Serial Number</h3><span class="close-modal" data-modal="srModal">&times;</span></div><div class="modal-body"><input type="text" id="modalSrNo" placeholder="Enter SR. NO."></div><div class="modal-footer"><button class="modal-btn modal-btn-secondary" id="cancelSrModalBtn">Cancel</button><button class="modal-btn modal-btn-primary" id="saveSrModalBtn">Save</button></div></div></div>
+
+  <div class="container" id="mainContainer">
+    <div id="bill-content">
+      <div id="section1">
+        <div class="bill-header">
+          <h1>PRAJAPATI CYCLE <span class="amp-normal">&amp;</span> HARDWARE</h1>
+          <div class="brand-tagline">✦ QUALITY PRODUCTS SINCE 1987 | TRUSTED TRADER'S ✦</div>
+          <div class="brand-showcase">
+            <div class="brand-item"><i class="fas fa-bicycle"></i> साइकिल</div><div class="brand-item"><i class="fas fa-tools"></i> हार्डवेयर</div>
+            <div class="brand-item"><i class="fas fa-car-battery"></i> Battery</div><div class="brand-item"><i class="fas fa-bolt"></i> Electrical</div>
+            <div class="brand-item"><i class="fas fa-microchip"></i> Electronics</div><div class="brand-item"><i class="fas fa-oil-can"></i> टूल्स</div>
+            <div class="brand-item"><i class="fas fa-faucet"></i> Plumber</div><div class="brand-item"><i class="fas fa-cog"></i> Motor</div>
+            <div class="brand-item"><i class="fas fa-water"></i> Borwel</div><div class="brand-item"><i class="fas fa-hand-holding-water"></i> Hand pump</div>
+          </div>
+          <div class="contact-details">
+            <span><i class="fas fa-phone-alt"></i> 9504382835</span>
+            <span><i class="fas fa-phone-alt"></i> 6206784981</span>
+            <span><i class="fas fa-map-marker-alt"></i> Shree Ram Market Taraiya</span>
+            <span><i class="fas fa-clock"></i> 6 AM - 9 PM</span>
+          </div>
+          <div class="gst-row">GSTIN : 10IUVPS5939D2Z1</div>
+        </div>
+
+        <div class="info-row">
+          <div><label><i class="fas fa-receipt"></i> BILL NO.</label><input type="text" id="billNo" readonly style="background:#f1f5f9; font-weight:600;">
+            <div class="golden-box" id="modalNoBox" onclick="openModal('modalNoModal')"><i class="fas fa-cube"></i><span>MODAL NO.</span><span class="value-text" id="modalNoValue"></span></div>
+          </div>
+          <div><label><i class="fas fa-user"></i> CUSTOMER NAME</label><input type="text" id="custName" placeholder="Enter customer name">
+            <div class="golden-box" id="srNoBox" onclick="openModal('srModal')"><i class="fas fa-hashtag"></i><span>SR. NO.</span><span class="value-text" id="srNoValue"></span></div>
+          </div>
+          <div><label><i class="fas fa-calendar-alt"></i> DATE</label><input type="text" id="dateInput" readonly style="background:#f1f5f9;"></div>
+          <div><label><i class="fab fa-whatsapp"></i> WHATSAPP NO.</label><input type="tel" id="custMobile" placeholder="Enter WhatsApp number"></div>
+        </div>
+
+        <div class="address-section">
+          <div class="section-title"><i class="fas fa-map-marker-alt"></i> CUSTOMER ADDRESS (SARAN District)</div>
+          <div class="address-grid">
+            <div class="field-group">
+              <label><i class="fas fa-mail-bulk"></i> PINCODE (Auto Detect)</label>
+              <input type="text" id="pincode" placeholder="Enter 6 digit pincode" maxlength="6" oninput="autoDetectByPincode()">
+              <div class="pincode-hint"><i class="fas fa-magic"></i> Pincode dalte hi address auto fill!</div>
+            </div>
+            <div class="field-group"><label><i class="fas fa-globe"></i> DISTRICT</label><input type="text" id="districtDisplay" value="SARAN" readonly style="background:#f1f5f9;"></div>
+            <div class="field-group"><label><i class="fas fa-building"></i> SUB-DIVISION</label><input type="text" id="subdivisionDisplay" placeholder="Auto fill or enter manually"></div>
+            <div class="field-group"><label><i class="fas fa-layer-group"></i> BLOCK</label><input type="text" id="blockDisplay" placeholder="Auto fill or enter manually"></div>
+            <div class="field-group"><label><i class="fas fa-home"></i> ग्राम पंचायत / Village Panchayat</label><input type="text" id="panchayatDisplay" placeholder="Auto fill or enter manually"></div>
+            <div class="field-group" style="grid-column: span 2;"><label><i class="fas fa-address-card"></i> FULL ADDRESS</label><input type="text" id="fullAddress" placeholder="House No., Street, Landmark (Optional)"></div>
+          </div>
+          <div class="or-divider">या</div>
+          <div class="dropdown-section">
+            <div style="font-size: 12px; color: #1e3a2f; margin-bottom: 10px;"><i class="fas fa-hand-pointer"></i> यदि पिनकोड नहीं पता तो यहाँ से चुनें:</div>
+            <div class="address-grid">
+              <div class="field-group"><label><i class="fas fa-building"></i> अनुमंडल / Sub-Division</label><select id="subdivisionSelect" onchange="loadBlocks()"><option value="">-- Select Sub-Division --</option></select></div>
+              <div class="field-group"><label><i class="fas fa-layer-group"></i> प्रखंड / Block</label><select id="blockSelect" onchange="loadPanchayats()"><option value="">-- First Select Sub-Division --</option></select></div>
+              <div class="field-group"><label><i class="fas fa-home"></i> ग्राम पंचायत / Village Panchayat</label><select id="panchayatSelect" onchange="setAddressFromDropdown()"><option value="">-- First Select Block --</option></select></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="section2">
+        <div class="controls-section">
+          <div class="controls">
+            <input type="text" id="itemName" placeholder="🔧 Item / Product Name">
+            <input type="number" id="itemQty" placeholder="Qty" value="1">
+            <input type="number" id="itemPrice" placeholder="₹ Price">
+            <button id="addBtn"><i class="fas fa-plus-circle"></i> Add Item</button>
+          </div>
+        </div>
+
+        <table id="billTable">
+          <thead>
+            <tr><th>#</th><th>Item Description</th><th>Qty</th><th>Rate (₹)</th><th>Amount (₹)</th><th class="delete-col"></th> </>
+          </thead>
+          <tbody id="tableBody"></tbody>
+          <tfoot><tr style="background: #fef9e6; font-weight: 700;"><td colspan="4" align="right"><strong>TOTAL AMOUNT</strong>  ..<td id="total" style="font-size: 20px; font-weight: 800; color: #1e3a2f;">₹0.00</td><td class="delete-col"></td></tr></tfoot>
+        </table>
+
+        <div id="qrArea" class="qr-section"><p><i class="fas fa-qrcode"></i> Scan & Pay via UPI</p><div id="qrcode"></div><p style="font-size:12px; margin-top:12px;">UPI: 7209076462-2@ybl</p></div>
+      </div>
+    </div>
+
+    <div class="action-area">
+      <button id="qrBtn" class="btn-action"><i class="fas fa-qrcode"></i> Payment QR</button>
+      <button id="savePdfBtn" class="btn-action"><i class="fas fa-save"></i> 💾 Save PDF Bill</button>
+      <button id="whatsappBtn" class="btn-action"><i class="fab fa-whatsapp"></i> 📱 Send on WhatsApp</button>
+      <button id="printBtn" class="btn-action" onclick="window.print()"><i class="fas fa-print"></i> Print Bill</button>
+    </div>
+  </div>
+  <div class="scroll-top" id="scrollTopBtn"><i class="fas fa-arrow-up"></i></div>
+</div>
+
+<script type="module">
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyB5PMe0R7QYyNXiH-SPMFW4gXaN7c37JWw",
+    authDomain: "prajapaticyclebill.firebaseapp.com",
+    projectId: "prajapaticyclebill",
+    storageBucket: "prajapaticyclebill.firebasestorage.app",
+    messagingSenderId: "338038578938",
+    appId: "1:338038578938:web:af5451e069b69e80037343"
+  };
+
+  import { initializeApp } from "firebase/app";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // DOM Elements
+  const loginPage = document.getElementById('loginPage');
+  const billSystem = document.getElementById('billSystem');
+  const loginBtn = document.getElementById('loginBtn');
+  const showRegisterLink = document.getElementById('showRegister');
+  const showLoginLink = document.getElementById('showLogin');
+  const loginContainer = document.getElementById('loginContainer');
+  const registerContainer = document.getElementById('registerContainer');
+  const avatarBtn = document.getElementById('avatarBtn');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  const logoutDropdownBtn = document.getElementById('logoutDropdownBtn');
+  const avatarInitial = document.getElementById('avatarInitial');
+  const dropdownEmail = document.getElementById('dropdownEmail');
+  const toastMsg = document.getElementById('toastMsg');
+
+  function showToast(message, isError = false) {
+    toastMsg.textContent = message;
+    toastMsg.style.background = isError ? '#dc2626' : '#10b981';
+    toastMsg.style.display = 'block';
+    setTimeout(() => toastMsg.style.display = 'none', 3000);
+  }
+
+  // Toggle dropdown
+  avatarBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('show');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+      dropdownMenu.classList.remove('show');
+    }
+  });
+
+  // Switch to Contact Admin
+  showRegisterLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    loginContainer.classList.remove('active');
+    registerContainer.classList.add('active');
+  });
+
+  // Switch to Login
+  showLoginLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    registerContainer.classList.remove('active');
+    loginContainer.classList.add('active');
+  });
+
+  // Login Function
+  loginBtn.addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    if (!email || !password) {
+      showToast('Please enter email and password', true);
+      return;
+    }
+
+    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging...';
+    loginBtn.disabled = true;
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      showToast('✅ Login successful!');
+    } catch (error) {
+      let errorMsg = 'Login failed! ';
+      if (error.code === 'auth/user-not-found') errorMsg += 'User not found. Please contact admin.';
+      else if (error.code === 'auth/wrong-password') errorMsg += 'Wrong password.';
+      else if (error.code === 'auth/invalid-email') errorMsg += 'Invalid email format.';
+      else errorMsg += error.message;
+      showToast(errorMsg, true);
+    } finally {
+      loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+      loginBtn.disabled = false;
+    }
+  });
+
+  // Logout Function
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      dropdownMenu.classList.remove('show');
+      showToast('✅ Logged out successfully!');
+    } catch (error) {
+      showToast('Logout failed!', true);
+    }
+  };
+
+  logoutDropdownBtn.addEventListener('click', handleLogout);
+
+  // Auth State Listener
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loginPage.style.display = 'none';
+      billSystem.style.display = 'block';
+      const email = user.email;
+      const initial = email.charAt(0).toUpperCase();
+      avatarInitial.textContent = initial;
+      dropdownEmail.textContent = email;
+      // Initialize bill system after login
+      initializeBillSystem();
+    } else {
+      loginPage.style.display = 'flex';
+      billSystem.style.display = 'none';
+    }
+  });
+
+  // Enter key handlers
+  document.getElementById('loginPassword')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
+
+  // ============ BILL SYSTEM CODE ============
+  let billCounter = localStorage.getItem('prajapatiBillCounter');
+  if (!billCounter) { billCounter = 1; localStorage.setItem('prajapatiBillCounter', billCounter); }
+  
+  function generateBillNumber() { return `PRAJAPATI-${String(billCounter).padStart(3, '0')}`; }
+  function updateBillNumber() { document.getElementById('billNo').value = generateBillNumber(); }
+  function incrementBillCounter() { billCounter = parseInt(billCounter) + 1; localStorage.setItem('prajapatiBillCounter', billCounter); updateBillNumber(); }
+
+  const saranData = {
+    "MARHAURA": { "AMNOUR": ["AMNOUR HARNARAYAN","AMNOUR KALYAN","APHAR","BASATPUR","DHARHARA KHURD","DHARMPUR JAFAR","DHORLAHI KHAITHAL","HUSEPUR","KATSA","KOREYAN","MADARPUR","MANORPUR JHAKHARI","PAIGA MITRASEN","PARSA","RAIPURA","RASULPUR","SHEKHPURA","TARWAR"], "ISUAPUR": ["AATANAGAR","AGAUTHAR SUNDAR","CHAKAHAN","CHHAPIYA","DATRA PURSAULI","ISUAPUR","JAITHAR","KERWA","LAUWA","NIPANIYA","RAMCHAURA","RAMPUR ATAULI","SAHWAN"], "MARHAURAH": ["AGAHARA","AWARI","BAHUWARA PATTI","BARDAHIA","BHAWALPUR","BHUALPUR","GAURA","HASANPURA","HATHISAR","ISRAULI","MADHOPUR","MIRZAPUR","MUBARAKPUR","NARHAR PUR","NAUTAN","OLHANPUR","RAMPUR","RASULPUR","SALIMAPUR","SHILHAURI","TEJPURWA"], "MASHRAKH": ["ARANA","BAHRAULI","BANGRA","CHAND KUDARIYA","DUMARSHAN","DURGAULI","GANGAULI","JAJAULI","KARN KUDARIYA","KAWALPURA","KHAJURI","MADARPUR","NAWADA","SEMARI","SONAULI"], "PANAPUR": ["BAKWA","BASAHIYA","BELOR","BHORAHA","CHAKIYA","DHENUKI","KONDHA","MAHMAD PUR","RASAULI","SATJORA","TOTAHA JAGATPUR"], "TARAIYA": ["BHAGWATPUR","BHATGAI","CHAINPUR","CHANCHALIYA","DEODHI","DUMRI","MADHOPUR","NARAYANPUR","PACHBHINDA","PACHRAUR","POKHERARA","SARAIYA RATNAKAR","TARAIYA"] },
+    "SARAN SADAR": { "BANIAPUR": ["BANIYAPUR","BEDAULI","BHITHI SAHABUDDIN","BHUSHAW","DHANGARHA","DHAWRI","GOAPIPARPANTI","HARPUR","KAMTA","KANHAULI MANOHAR","KARAH","KARAHI","LAUWA KALA","MANIKPURA","MANOPALI","MARICHA","PAIGAMBAR PUR","PIRAUTA KHAS","PITHAURI","RAMDHNAW","SAHAJITPUR","SAREYA","SATUA","SISAI","SURAUDHA"], "CHHAPRA": ["BADALU TOLA","BARHARA MAHAJI","BHAIROPUR NIZAMAT","BISHUNPURA","CHIRAND","DUMARI","FAKULI","JALALPUR","KARINGA","KHALPURA BALA","KOTAWA PATTI RAMPUR","LOHARI","MAHARAJGANJ","MAUNA","MUSEPUR","NAINI","PURVI TELPA","RAIPUR BINGAWAN","SANDHA","SHERPUR GHEGHATA","TENUA"], "EKMA": ["AAMDADHI","ASAHANI","ATARSAN","BALIYA","BANPURA","BINDA LAL KE RAMPUR","CHANCHAURA","DAKSHINI PARSA","DEVPURA","EKSAR","FUCHATI KALA","HUSSEPUR","MANE","NAWADA","PANCHUA","PARSA PURVI","PARSA UTARI","RASULPUR"], "GARKHA": ["BAJIT PUR","FERUSA","GARKHA","HASAN PURA","ITWA","JALAL BASANT","KOTHIA","KUDARBADHA","MAHAMAD PUR","MAHAMDA","MAUZAM PUR","MIRPUR JUARA","MIRZA PUR","MITHE PUR","MOTIRAJPUR","MUKIMPUR","NARAON","PACHPATIA","PIRAUNA","RAM PUR","SADH PUR","SARGATTI","SRIPAL BASANT"], "JALALPUR": ["ANWAL","ASHOK NAGAR","BHATKESARI","BISHUNPURA","DEURIA","KISHUNPUR","KUMNA","MADHO PUR","NAWADA","RAMPUR NUR NAGAR","REWARI","SAMHOTA","SANWARI","SHANKARDIH"], "LAHLADPUR": ["BANPURA","BASAHI","DANDASPUR","DAYALPUR","KATEYA","KISHUNPUR LAUWAR","MIRZAPUR","PURUSHOTAMPUR"], "MAKER": ["BAGHA KOL","BHATHA","KAITUKA LACHHI","KAITUKA NANDAN","MAKER","PHULWARIYA","PIR MAKER","TARA AMANOUR"], "MANJHI": ["BALESHARA","BANGARA","BAREJA","BHAJAUNA NACHAP","BHALUA BUJURG","CHEFUL","DAUDPUR","DUMARI","ENAITPUR","GHORHAT","GOBARAHI","JAITPUR","KAURU DHAURU","LEGUAR","MADAN SATH","MAHAMMDPUR","MARAHAN","MATIYAR","MOBARAKPUR","NASIRA","SHITALPUR","SONBARSA","TAJPUR"], "NAGRA": ["APHAUR","DHUPNAGAR DHOBWAL","DUMARI","JAGADISHPUR","KADIPUR","KHAIRA","KOREYA","NAGRA","TAKIYA","TUJARPUR"], "PARSA": ["ANJANI","ANYAY","BAHAR MARAR","BALIGAWN","BANAUTA","BHELDI","CHANDPURA","MARAR","PACHALAKH","PACHRUKHI","PARSAUNA","SAGUNI","SOBHEPUR"], "REVELGANJ": ["DAKSHNIWARI CHAKKI","DILIYA RAHIM PUR","INAI","KACHANAR","KHAIRWAR","MOHABBAT PARSA","MUKRERA","SITAB DIYARA","TEKNIWAS"] },
+    "SONEPUR": { "DARIAPUR": ["AKABARPUR","BAJAHIYAN","BARWE","BELA","DARIAPUR","DARIHARA","FATEHPUR CHAIN","HARANA","HARIHARPUR","JITWARPUR","KAKARHAT","KHANPUR","MAGARPAL","MAHMADPUR","MANPURA","MUJAUNA","NATHA CHHAPRA","PARATAPPUR","PIRARIDIH","SAJUANNUPUR MATIHAR","SUTIHAR","VISHAMBHARPUR"], "DIGHWARA": ["AKILPUR","BARUA","BASTI JALAL","HARAJI","JHAUWA","KURAIYA","MANUPUR","RAMPUR AMI","SITALPUR","TRILOK CHAK"], "SONEPUR": ["BHARPURA","CHATUR PUR","DUDHAILA","DUMARI BUJURG","GANGAJAL","GOPAL PUR","GOVIND CHAK","HASILPUR","JAHAGIR PUR","KALYAN PUR","KASAMAR","KHARIKA","NAGARMIRA","NAYAGAON","PERMANAND PUR","RASULPUR","SABALPUR MIDDLE","SABALPUR PACHAMI","SABALPUR PURBI","SABALPUR UTRI","SAHAPUR DIARA","SHAIDPUR","SIKARPUR"] }
+  };
+
+  const pincodeDatabase = {
+    "841301": { subdivision: "SARAN SADAR", block: "CHHAPRA", panchayat: "CHAPRA CITY" }, "841424": { subdivision: "MARHAURA", block: "TARAIYA", panchayat: "TARAIYA" }, "841401": { subdivision: "MARHAURA", block: "AMNOUR", panchayat: "AMNOUR HARNARAYAN" }, "841403": { subdivision: "MARHAURA", block: "AMNOUR", panchayat: "AMNOUR KALYAN" }, "841207": { subdivision: "SONEPUR", block: "DIGHWARA", panchayat: "DIGHWARA" }, "841208": { subdivision: "SARAN SADAR", block: "EKMA", panchayat: "EKMA" }, "841311": { subdivision: "SARAN SADAR", block: "GARKHA", panchayat: "GARKHA" }, "841313": { subdivision: "SARAN SADAR", block: "MANJHI", panchayat: "MANJHI" }, "841418": { subdivision: "MARHAURA", block: "MARHAURAH", panchayat: "MARHAURAH" }, "841417": { subdivision: "MARHAURA", block: "MASHRAKH", panchayat: "MASHRAKH" }, "841410": { subdivision: "MARHAURA", block: "PANAPUR", panchayat: "PANAPUR" }, "841219": { subdivision: "SARAN SADAR", block: "PARSA", panchayat: "PARSA" }, "841305": { subdivision: "SARAN SADAR", block: "REVELGANJ", panchayat: "REVELGANJ" }, "841101": { subdivision: "SONEPUR", block: "SONEPUR", panchayat: "SONEPUR" }, "841213": { subdivision: "SARAN SADAR", block: "JALALPUR", panchayat: "JALALPUR" }
+  };
+
+  window.autoDetectByPincode = function() {
+    const pincode = document.getElementById('pincode').value.trim();
+    if(pincode.length === 6 && pincodeDatabase[pincode]) {
+      const data = pincodeDatabase[pincode];
+      document.getElementById('subdivisionDisplay').value = data.subdivision;
+      document.getElementById('blockDisplay').value = data.block;
+      document.getElementById('panchayatDisplay').value = data.panchayat;
+      showToast(`✅ ${data.panchayat}, ${data.block}, ${data.subdivision}`);
+    } else if(pincode.length === 6 && !pincodeDatabase[pincode]) {
+      showToast('❌ Pincode not found! Please enter manually.', true);
+    }
+  };
+
+  window.loadSubDivisions = function() {
+    const subDivSelect = document.getElementById('subdivisionSelect');
+    subDivSelect.innerHTML = '<option value="">-- Select Sub-Division --</option>';
+    for(let subDiv in saranData) subDivSelect.innerHTML += `<option value="${subDiv}">${subDiv}</option>`;
+  };
+
+  window.loadBlocks = function() {
+    const subdivision = document.getElementById('subdivisionSelect').value;
+    const blockSelect = document.getElementById('blockSelect');
+    const panchayatSelect = document.getElementById('panchayatSelect');
+    blockSelect.innerHTML = '<option value="">-- Select Block --</option>';
+    panchayatSelect.innerHTML = '<option value="">-- First Select Block --</option>';
+    if(subdivision && saranData[subdivision]) for(let block in saranData[subdivision]) blockSelect.innerHTML += `<option value="${block}">${block}</option>`;
+  };
+
+  window.loadPanchayats = function() {
+    const subdivision = document.getElementById('subdivisionSelect').value;
+    const block = document.getElementById('blockSelect').value;
+    const panchayatSelect = document.getElementById('panchayatSelect');
+    panchayatSelect.innerHTML = '<option value="">-- Select Panchayat --</option>';
+    if(subdivision && block && saranData[subdivision] && saranData[subdivision][block]) saranData[subdivision][block].forEach(p => panchayatSelect.innerHTML += `<option value="${p}">${p}</option>`);
+  };
+
+  window.setAddressFromDropdown = function() {
+    const subdivision = document.getElementById('subdivisionSelect').value;
+    const block = document.getElementById('blockSelect').value;
+    const panchayat = document.getElementById('panchayatSelect').value;
+    if(panchayat) {
+      document.getElementById('subdivisionDisplay').value = subdivision;
+      document.getElementById('blockDisplay').value = block;
+      document.getElementById('panchayatDisplay').value = panchayat;
+      showToast(`✅ ${panchayat}, ${block}, ${subdivision} selected`);
+    }
+  };
+
+  document.getElementById('dateInput').value = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+  let items = [{ name: "Hero Cycle Chain", qty: 2, price: 120 }, { name: "Steel Handle Grip", qty: 1, price: 85 }, { name: "PVC Pipe 1 inch", qty: 5, price: 45 }];
+  let modalNoData = '', srNoData = '';
+
+  window.openModal = function(id){ document.getElementById(id).style.display='flex'; };
+  window.closeModal = function(id){ document.getElementById(id).style.display='none'; };
+  function updateModalNoDisplay(){ document.getElementById('modalNoValue').innerHTML = modalNoData || ''; }
+  function updateSrNoDisplay(){ document.getElementById('srNoValue').innerHTML = srNoData || ''; }
+  window.saveModalNo = function(){ modalNoData = document.getElementById('modalModalNo').value.trim(); updateModalNoDisplay(); closeModal('modalNoModal'); showToast(modalNoData?'✅ Modal No saved':'❌ Cleared'); };
+  window.saveSrNo = function(){ srNoData = document.getElementById('modalSrNo').value.trim(); updateSrNoDisplay(); closeModal('srModal'); showToast(srNoData?'✅ SR No saved':'❌ Cleared'); };
+
+  document.querySelectorAll('.close-modal').forEach(btn=>{ btn.onclick=()=>closeModal(btn.dataset.modal); });
+  document.getElementById('cancelModalNoBtn').onclick = ()=>closeModal('modalNoModal');
+  document.getElementById('saveModalNoBtn').onclick = saveModalNo;
+  document.getElementById('cancelSrModalBtn').onclick = ()=>closeModal('srModal');
+  document.getElementById('saveSrModalBtn').onclick = saveSrNo;
+  window.onclick = e=>{ if(e.target.classList.contains('modal')) e.target.style.display='none'; };
+
+  function renderTable(){
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    let grandTotal = 0;
+    items.forEach((item, idx) => {
+      const total = item.qty * item.price;
+      grandTotal += total;
+      const row = document.createElement('tr');
+      row.innerHTML = `<td style="font-weight:500;">${escapeHtml(item.name)}</td><td>${item.qty}</td><td>₹${item.price.toFixed(2)}</td><td style="font-weight:600;">₹${total.toFixed(2)}</td><td class="delete-col"><button onclick="deleteItem(${idx})"><i class="fas fa-trash-alt"></i></button></td>`;
+      tbody.appendChild(row);
+    });
+    document.getElementById('total').innerHTML = `₹${grandTotal.toFixed(2)}`;
+  }
+
+  window.deleteItem = function(i){ items.splice(i,1); renderTable(); };
+  document.getElementById('addBtn').onclick = ()=>{
+    const name = document.getElementById('itemName').value.trim();
+    const qty = parseFloat(document.getElementById('itemQty').value);
+    const price = parseFloat(document.getElementById('itemPrice').value);
+    if(!name){ alert("Item name dalo!"); return; }
+    if(isNaN(qty)||qty<=0){ alert("Sahi quantity dalo!"); return; }
+    if(isNaN(price)||price<=0){ alert("Sahi price dalo!"); return; }
+    items.push({name,qty,price});
+    renderTable();
+    document.getElementById('itemName').value = '';
+    document.getElementById('itemQty').value = '1';
+    document.getElementById('itemPrice').value = '';
+  };
+
+  function escapeHtml(str){ return str.replace(/[&<>]/g, m=> m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
+
+  document.getElementById('qrBtn').onclick = ()=>{ showToast('⚠️ UPI ID Set Nahi Hai!', true); document.getElementById('qrArea').style.display = 'none'; };
+
+  function getFullAddress() {
+    const full = document.getElementById('fullAddress').value.trim();
+    const panchayat = document.getElementById('panchayatDisplay').value.trim();
+    const block = document.getElementById('blockDisplay').value.trim();
+    const subdivision = document.getElementById('subdivisionDisplay').value.trim();
+    const district = document.getElementById('districtDisplay').value.trim();
+    const pincode = document.getElementById('pincode').value.trim();
+    let address = '';
+    if(full) address += full + ', ';
+    if(panchayat) address += panchayat + ', ';
+    if(block) address += block + ', ';
+    if(subdivision) address += subdivision + ', ';
+    if(district) address += district + ', ';
+    if(pincode) address += 'PIN: ' + pincode;
+    return address.replace(/,\s*$/, '');
+  }
+
+  async function generateAndSavePDF(){
+    if(items.length===0){ alert("Bill mein koi item nahi!"); return false; }
+    const loader = document.getElementById('loadingOverlay');
+    loader.style.display = 'flex';
+    document.getElementById('mainContainer').classList.add('pdf-mode');
+    try{
+      const section1 = document.getElementById('section1');
+      const section2 = document.getElementById('section2');
+      const qrArea = document.getElementById('qrArea');
+      let qrDisplay = qrArea.style.display;
+      qrArea.style.display = 'none';
+      updateModalNoDisplay(); updateSrNoDisplay();
+      
+      const canvas1 = await html2canvas(section1, { scale: 2.0, backgroundColor: '#fff', logging: false, useCORS: true });
+      const canvas2 = await html2canvas(section2, { scale: 2.0, backgroundColor: '#fff', logging: false, useCORS: true });
+      qrArea.style.display = qrDisplay;
+      
+      const imgData1 = canvas1.toDataURL('image/jpeg', 1.0);
+      const imgData2 = canvas2.toDataURL('image/jpeg', 1.0);
+      const { jsPDF } = window.jspdf;
+      const imgWidth = 190;
+      const imgHeight1 = (canvas1.height * imgWidth) / canvas1.width;
+      const imgHeight2 = (canvas2.height * imgWidth) / canvas2.width;
+      
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [imgWidth + 20, imgHeight1 + 20], compress: false });
+      pdf.addImage(imgData1, 'JPEG', 10, 0, imgWidth, imgHeight1);
+      pdf.addPage('a4');
+      pdf.addImage(imgData2, 'JPEG', 10, 0, imgWidth, imgHeight2);
+      
+      incrementBillCounter();
+      pdf.save(`Bill_${document.getElementById('billNo').value}_${document.getElementById('custName').value || 'Customer'}.pdf`);
+      showToast('✅ PDF Bill saved! Next bill number ready');
+      return true;
+    } catch(e){ console.error(e); showToast('❌ Error generating PDF!', true); return false; }
+    finally{ document.getElementById('mainContainer').classList.remove('pdf-mode'); loader.style.display='none'; }
+  }
+
+  document.getElementById('savePdfBtn').onclick = async ()=> await generateAndSavePDF();
+
+  document.getElementById('whatsappBtn').onclick = ()=>{
+    const mobile = document.getElementById('custMobile').value.trim();
+    const name = document.getElementById('custName').value.trim() || "Customer";
+    const billNo = document.getElementById('billNo').value;
+    const modal = modalNoData ? ` (Modal: ${modalNoData})` : '';
+    const sr = srNoData ? ` (SR: ${srNoData})` : '';
+    const fullAddress = getFullAddress();
+    const total = document.getElementById('total').innerText;
+    if(!mobile){ alert("WhatsApp number daalein!"); return; }
+    if(items.length===0){ alert("Bill mein koi item nahi!"); return; }
+    let cleanMobile = mobile.replace(/\s/g,'');
+    if(cleanMobile.startsWith('0')) cleanMobile = '91'+cleanMobile.substring(1);
+    if(!cleanMobile.startsWith('91') && cleanMobile.length===10) cleanMobile='91'+cleanMobile;
+    let msg = `🏪 *PRAJAPATI CYCLE & HARDWARE* 🚲🔧\n━━━━━━━━━━━━━━━━━━━━━━\n📄 *Bill No:* ${billNo}${modal}${sr}\n📅 *Date:* ${document.getElementById('dateInput').value}\n👤 *Customer:* ${name}\n📍 *Address:* ${fullAddress}\n━━━━━━━━━━━━━━━━━━━━━━\n*🛒 ITEMS DETAILS:*\n`;
+    items.forEach((it,i)=>{ const amt = it.qty*it.price; msg += `${i+1}. ${it.name}\n   ➜ Qty: ${it.qty} × ₹${it.price} = ₹${amt.toFixed(2)}\n`; });
+    msg += `━━━━━━━━━━━━━━━━━━━━━━\n💰 *TOTAL AMOUNT:* ${total}\n━━━━━━━━━━━━━━━━━━━━━━\n✅ *Payment:* Cash / UPI\n📞 *Support:* 9504382835 | 6206784981\n📍 Shree Ram Market Taraiya\n🙏 *Thank you! Visit Again.`;
+    window.open(`https://wa.me/${cleanMobile}?text=${encodeURIComponent(msg)}`, '_blank');
+    setTimeout(()=>showToast('📱 WhatsApp open!'),1000);
+  };
+
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll',()=>{ scrollBtn.style.opacity = window.scrollY>300?'1':'0'; });
+  scrollBtn.onclick = ()=>window.scrollTo({top:0,behavior:'smooth'});
+
+  function initializeBillSystem() {
+    loadSubDivisions();
+    updateModalNoDisplay();
+    updateSrNoDisplay();
+    updateBillNumber();
+    renderTable();
+  }
+</script>
+</body>
+</html>
