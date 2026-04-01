@@ -499,7 +499,7 @@
           <div class="switch-link">Don't have an account? <a id="showRegister">Contact Admin</a></div>
         </div>
         
-        <!-- Contact Admin Section (No Registration Form) -->
+        <!-- Contact Admin Section -->
         <div id="registerContainer" class="form-container">
           <div class="access-message">
             <i class="fas fa-headset"></i>
@@ -507,7 +507,6 @@
             <p>Please reach out to the administrator to get your login credentials</p>
           </div>
           
-          <!-- Social Contact Section -->
           <div class="social-contact">
             <div class="social-title">
               <i class="fas fa-phone-alt"></i> Connect with Admin
@@ -553,7 +552,6 @@
 
 <!-- Bill System -->
 <div id="billSystem" class="bill-system">
-  <!-- User Menu - Avatar with Dropdown -->
   <div class="user-menu">
     <div class="avatar-btn" id="avatarBtn">
       <span id="avatarInitial">U</span>
@@ -712,7 +710,6 @@
     dropdownMenu.classList.toggle('show');
   });
 
-  // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
     if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
       dropdownMenu.classList.remove('show');
@@ -784,7 +781,6 @@
       const initial = email.charAt(0).toUpperCase();
       avatarInitial.textContent = initial;
       dropdownEmail.textContent = email;
-      // Initialize bill system after login
       initializeBillSystem();
     } else {
       loginPage.style.display = 'flex';
@@ -792,7 +788,6 @@
     }
   });
 
-  // Enter key handlers
   document.getElementById('loginPassword')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
 
   // ============ BILL SYSTEM CODE ============
@@ -953,14 +948,17 @@
       const imgHeight1 = (canvas1.height * imgWidth) / canvas1.width;
       const imgHeight2 = (canvas2.height * imgWidth) / canvas2.width;
       
+      // Page 1: Auto height so full address fits
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [imgWidth + 20, imgHeight1 + 20], compress: false });
       pdf.addImage(imgData1, 'JPEG', 10, 0, imgWidth, imgHeight1);
+      
+      // Page 2: A4 size for items
       pdf.addPage('a4');
       pdf.addImage(imgData2, 'JPEG', 10, 0, imgWidth, imgHeight2);
       
       incrementBillCounter();
       pdf.save(`Bill_${document.getElementById('billNo').value}_${document.getElementById('custName').value || 'Customer'}.pdf`);
-      showToast('✅ PDF Bill saved! Next bill number ready');
+      showToast('✅ PDF Bill saved! (Page 1: Full Address, Page 2: Items)');
       return true;
     } catch(e){ console.error(e); showToast('❌ Error generating PDF!', true); return false; }
     finally{ document.getElementById('mainContainer').classList.remove('pdf-mode'); loader.style.display='none'; }
