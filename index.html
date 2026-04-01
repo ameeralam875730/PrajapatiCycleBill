@@ -210,6 +210,11 @@
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
     
     .social-card {
       animation: fadeInUp 0.5s ease backwards;
@@ -218,33 +223,6 @@
     .social-card:nth-child(2) { animation-delay: 0.2s; }
     .social-card:nth-child(3) { animation-delay: 0.3s; }
     .social-card:nth-child(4) { animation-delay: 0.4s; }
-    
-    /* Access Message */
-    .access-message {
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #fef9e6, #fff7e0);
-      border-radius: 16px;
-      margin-bottom: 20px;
-      border: 1px solid #f5cb5c;
-    }
-    
-    .access-message i {
-      font-size: 40px;
-      color: #f5cb5c;
-      margin-bottom: 10px;
-    }
-    
-    .access-message h3 {
-      color: #1e3a2f;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-    
-    .access-message p {
-      color: #64748b;
-      font-size: 13px;
-    }
     
     /* Bill System Styles */
     .bill-system {
@@ -479,7 +457,6 @@
         <p>Sign in to manage your bills</p>
       </div>
       <div class="card-body">
-        <!-- Login Form -->
         <div id="loginContainer" class="form-container active">
           <div class="form-group">
             <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
@@ -496,21 +473,36 @@
             </div>
           </div>
           <button class="btn btn-primary" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
-          <div class="switch-link">Don't have an account? <a id="showRegister">Contact Admin</a></div>
+          <div class="switch-link">Don't have an account? <a id="showRegister">Create Account</a></div>
         </div>
-        
-        <!-- Contact Admin Section (No Registration Form) -->
         <div id="registerContainer" class="form-container">
-          <div class="access-message">
-            <i class="fas fa-headset"></i>
-            <h3>Contact Admin for Access</h3>
-            <p>Please reach out to the administrator to get your login credentials</p>
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="registerEmail" placeholder="Enter your email">
+            </div>
           </div>
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> PASSWORD</label>
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="registerPassword" placeholder="Create password (min 6 chars)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-check-circle"></i> CONFIRM PASSWORD</label>
+            <div class="input-wrapper">
+              <i class="fas fa-check-circle"></i>
+              <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
+            </div>
+          </div>
+          <button class="btn btn-primary" id="registerBtn"><i class="fas fa-user-plus"></i> Create Account</button>
           
           <!-- Social Contact Section -->
           <div class="social-contact">
             <div class="social-title">
-              <i class="fas fa-phone-alt"></i> Connect with Admin
+              <i class="fas fa-headset"></i> Contact Admin for Access
             </div>
             <div class="social-grid">
               <a href="https://wa.me/917209076462?text=Hi%20Admin%2C%20I%20need%20access%20to%20Prajapati%20Cycle%20Bill%20System" target="_blank" class="social-card whatsapp">
@@ -534,7 +526,7 @@
                   <div class="handle">Prajapati Cycle</div>
                 </div>
               </a>
-              <a href="mailto:ameeralam875730@gmail.com?subject=Prajapati%20Cycle%20Bill%20System%20Access&body=Hi%20Admin%2C%20I%20need%20access%20to%20the%20bill%20system.%20Please%20provide%20my%20login%20credentials." target="_blank" class="social-card gmail">
+              <a href="mailto:ameeralam875730@gmail.com?subject=Prajapati%20Cycle%20Bill%20System%20Access&body=Hi%20Admin%2C%20I%20need%20access%20to%20the%20bill%20system." target="_blank" class="social-card gmail">
                 <div class="social-icon"><i class="fas fa-envelope"></i></div>
                 <div class="social-info">
                   <div class="platform">Official Gmail</div>
@@ -646,9 +638,8 @@
         </div>
 
         <table id="billTable">
-          <thead>
-            <tr><th>#</th><th>Item Description</th><th>Qty</th><th>Rate (₹)</th><th>Amount (₹)</th><th class="delete-col"></th> </>
-          </thead>
+          <thead>……
+<th>#</th><th>Item Description</th><th>Qty</th><th>Rate (₹)</th><th>Amount (₹)</th><th class="delete-col"></th> </thead>
           <tbody id="tableBody"></tbody>
           <tfoot><tr style="background: #fef9e6; font-weight: 700;"><td colspan="4" align="right"><strong>TOTAL AMOUNT</strong>  ..<td id="total" style="font-size: 20px; font-weight: 800; color: #1e3a2f;">₹0.00</td><td class="delete-col"></td></tr></tfoot>
         </table>
@@ -679,7 +670,7 @@
   };
 
   import { initializeApp } from "firebase/app";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -688,6 +679,7 @@
   const loginPage = document.getElementById('loginPage');
   const billSystem = document.getElementById('billSystem');
   const loginBtn = document.getElementById('loginBtn');
+  const registerBtn = document.getElementById('registerBtn');
   const showRegisterLink = document.getElementById('showRegister');
   const showLoginLink = document.getElementById('showLogin');
   const loginContainer = document.getElementById('loginContainer');
@@ -719,7 +711,7 @@
     }
   });
 
-  // Switch to Contact Admin
+  // Switch to Register
   showRegisterLink.addEventListener('click', (e) => {
     e.preventDefault();
     loginContainer.classList.remove('active');
@@ -762,6 +754,50 @@
     }
   });
 
+  // Register Function - Now shows contact admin message
+  registerBtn.addEventListener('click', async () => {
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+    if (!email || !password || !confirmPassword) {
+      showToast('Please fill all fields', true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showToast('Passwords do not match!', true);
+      return;
+    }
+
+    if (password.length < 6) {
+      showToast('Password must be at least 6 characters', true);
+      return;
+    }
+
+    registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+    registerBtn.disabled = true;
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      showToast('✅ Account created! You can now login.');
+      registerContainer.classList.remove('active');
+      loginContainer.classList.add('active');
+      document.getElementById('loginEmail').value = email;
+      document.getElementById('loginPassword').value = '';
+    } catch (error) {
+      let errorMsg = 'Registration failed! ';
+      if (error.code === 'auth/email-already-in-use') errorMsg += 'Email already registered.';
+      else if (error.code === 'auth/invalid-email') errorMsg += 'Invalid email format.';
+      else if (error.code === 'auth/weak-password') errorMsg += 'Password too weak.';
+      else errorMsg += error.message;
+      showToast(errorMsg, true);
+    } finally {
+      registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+      registerBtn.disabled = false;
+    }
+  });
+
   // Logout Function
   const handleLogout = async () => {
     try {
@@ -794,6 +830,7 @@
 
   // Enter key handlers
   document.getElementById('loginPassword')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
+  document.getElementById('registerConfirmPassword')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') registerBtn.click(); });
 
   // ============ BILL SYSTEM CODE ============
   let billCounter = localStorage.getItem('prajapatiBillCounter');
