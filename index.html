@@ -74,14 +74,14 @@
     }
     
     .brand h1 {
-      font-size: 28px;
+      font-size: 32px;
       color: white;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     }
     
     .brand h1 i { margin-right: 10px; color: #f5cb5c; }
-    .brand p { color: rgba(255, 255, 255, 0.9); font-size: 13px; margin-top: 8px; letter-spacing: 1px; }
+    .brand p { color: rgba(255, 255, 255, 0.8); font-size: 14px; margin-top: 8px; }
     
     .card {
       background: white;
@@ -115,136 +115,15 @@
     .btn-primary:disabled { opacity: 0.7; transform: none; cursor: not-allowed; }
     
     .switch-link { text-align: center; margin-top: 20px; font-size: 14px; color: #64748b; }
-    .switch-link a { color: #f5cb5c; text-decoration: none; font-weight: 600; cursor: pointer; }
+    .switch-link a { color: #f5cb5c; text-decoration: none; font-weight: 600; }
     .switch-link a:hover { text-decoration: underline; }
     
     .form-container { display: none; }
     .form-container.active { display: block; animation: fadeIn 0.5s ease; }
     
-    /* Social Contact Cards */
-    .social-contact {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #e2e8f0;
-    }
-    
-    .social-title {
-      text-align: center;
-      font-size: 13px;
-      color: #64748b;
-      margin-bottom: 15px;
-      font-weight: 500;
-    }
-    
-    .social-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    
-    .social-card {
-      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-      border-radius: 14px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: 1px solid #e2e8f0;
-      text-decoration: none;
-    }
-    
-    .social-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
-    }
-    
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      transition: all 0.3s ease;
-    }
-    
-    .social-card:hover .social-icon {
-      transform: scale(1.1);
-    }
-    
-    .social-info {
-      flex: 1;
-    }
-    
-    .social-info .platform {
-      font-size: 12px;
-      font-weight: 700;
-      color: #1e293b;
-      letter-spacing: 0.3px;
-    }
-    
-    .social-info .handle {
-      font-size: 10px;
-      color: #64748b;
-      margin-top: 2px;
-      word-break: break-all;
-    }
-    
-    /* Individual Social Colors */
-    .social-card.whatsapp .social-icon { background: #25d36620; color: #25d366; }
-    .social-card.whatsapp:hover { background: linear-gradient(135deg, #25d36610, #25d36605); border-color: #25d366; }
-    
-    .social-card.instagram .social-icon { background: #e4405f20; color: #e4405f; }
-    .social-card.instagram:hover { background: linear-gradient(135deg, #e4405f10, #e4405f05); border-color: #e4405f; }
-    
-    .social-card.facebook .social-icon { background: #1877f220; color: #1877f2; }
-    .social-card.facebook:hover { background: linear-gradient(135deg, #1877f210, #1877f205); border-color: #1877f2; }
-    
-    .social-card.gmail .social-icon { background: #ea433520; color: #ea4335; }
-    .social-card.gmail:hover { background: linear-gradient(135deg, #ea433510, #ea433505); border-color: #ea4335; }
-    
-    /* Animations */
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
-    .social-card {
-      animation: fadeInUp 0.5s ease backwards;
-    }
-    .social-card:nth-child(1) { animation-delay: 0.1s; }
-    .social-card:nth-child(2) { animation-delay: 0.2s; }
-    .social-card:nth-child(3) { animation-delay: 0.3s; }
-    .social-card:nth-child(4) { animation-delay: 0.4s; }
-    
-    /* Access Message */
-    .access-message {
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #fef9e6, #fff7e0);
-      border-radius: 16px;
-      margin-bottom: 20px;
-      border: 1px solid #f5cb5c;
-    }
-    
-    .access-message i {
-      font-size: 40px;
-      color: #f5cb5c;
-      margin-bottom: 10px;
-    }
-    
-    .access-message h3 {
-      color: #1e3a2f;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-    
-    .access-message p {
-      color: #64748b;
-      font-size: 13px;
-    }
     
     /* Bill System Styles */
     .bill-system {
@@ -456,7 +335,7 @@
       tr { page-break-inside: avoid; }
       thead { display: table-header-group; }
     }
-    @media (max-width: 680px) { #bill-content { padding: 20px; } .bill-header { margin: -20px -20px 20px -20px; padding: 30px 20px; } .bill-header h1 { font-size: 32px; } .btn-action { padding: 12px 20px; font-size: 13px; } .info-row, .address-grid { grid-template-columns: 1fr; } .social-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 680px) { #bill-content { padding: 20px; } .bill-header { margin: -20px -20px 20px -20px; padding: 30px 20px; } .bill-header h1 { font-size: 32px; } .btn-action { padding: 12px 20px; font-size: 13px; } .info-row, .address-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -470,8 +349,8 @@
   </div>
   <div class="login-container">
     <div class="brand">
-      <h1><i class="fas fa-bicycle"></i> PRAJAPATI CYCLE & HARDWARE</h1>
-      <p>✦ QUALITY PRODUCTS SINCE 1987 | TRUSTED TRADER'S ✦</p>
+      <h1><i class="fas fa-bicycle"></i> PRAJAPATI CYCLE</h1>
+      <p>& HARDWARE • EST. 1987</p>
     </div>
     <div class="card">
       <div class="card-header">
@@ -479,7 +358,6 @@
         <p>Sign in to manage your bills</p>
       </div>
       <div class="card-body">
-        <!-- Login Form -->
         <div id="loginContainer" class="form-container active">
           <div class="form-group">
             <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
@@ -496,54 +374,32 @@
             </div>
           </div>
           <button class="btn btn-primary" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
-          <div class="switch-link">Don't have an account? <a id="showRegister">Contact Admin</a></div>
+          <div class="switch-link">Don't have an account? <a href="#" id="showRegister">Create Account</a></div>
         </div>
-        
-        <!-- Contact Admin Section -->
         <div id="registerContainer" class="form-container">
-          <div class="access-message">
-            <i class="fas fa-headset"></i>
-            <h3>Contact Admin for Access</h3>
-            <p>Please reach out to the administrator to get your login credentials</p>
-          </div>
-          
-          <div class="social-contact">
-            <div class="social-title">
-              <i class="fas fa-phone-alt"></i> Connect with Admin
-            </div>
-            <div class="social-grid">
-              <a href="https://wa.me/917209076462?text=Hi%20Admin%2C%20I%20need%20access%20to%20Prajapati%20Cycle%20Bill%20System" target="_blank" class="social-card whatsapp">
-                <div class="social-icon"><i class="fab fa-whatsapp"></i></div>
-                <div class="social-info">
-                  <div class="platform">Official WhatsApp</div>
-                  <div class="handle">+91 7209076462</div>
-                </div>
-              </a>
-              <a href="https://www.instagram.com/ameer_bhai04?igsh=MTJpOWVkc2lsZ2Eybg==" target="_blank" class="social-card instagram">
-                <div class="social-icon"><i class="fab fa-instagram"></i></div>
-                <div class="social-info">
-                  <div class="platform">Official Instagram</div>
-                  <div class="handle">@ameer_bhai04</div>
-                </div>
-              </a>
-              <a href="https://www.facebook.com/share/1EAqmF3RrR/" target="_blank" class="social-card facebook">
-                <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
-                <div class="social-info">
-                  <div class="platform">Official Facebook</div>
-                  <div class="handle">Prajapati Cycle</div>
-                </div>
-              </a>
-              <a href="mailto:ameeralam875730@gmail.com?subject=Prajapati%20Cycle%20Bill%20System%20Access&body=Hi%20Admin%2C%20I%20need%20access%20to%20the%20bill%20system.%20Please%20provide%20my%20login%20credentials." target="_blank" class="social-card gmail">
-                <div class="social-icon"><i class="fas fa-envelope"></i></div>
-                <div class="social-info">
-                  <div class="platform">Official Gmail</div>
-                  <div class="handle">ameeralam875730</div>
-                </div>
-              </a>
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="registerEmail" placeholder="Enter your email">
             </div>
           </div>
-          
-          <div class="switch-link">Already have an account? <a id="showLogin">Login</a></div>
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> PASSWORD</label>
+            <div class="input-wrapper">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="registerPassword" placeholder="Create password (min 6 chars)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-check-circle"></i> CONFIRM PASSWORD</label>
+            <div class="input-wrapper">
+              <i class="fas fa-check-circle"></i>
+              <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
+            </div>
+          </div>
+          <button class="btn btn-primary" id="registerBtn"><i class="fas fa-user-plus"></i> Create Account</button>
+          <div class="switch-link">Already have an account? <a href="#" id="showLogin">Login</a></div>
         </div>
       </div>
     </div>
@@ -552,6 +408,7 @@
 
 <!-- Bill System -->
 <div id="billSystem" class="bill-system">
+  <!-- User Menu - Avatar with Dropdown -->
   <div class="user-menu">
     <div class="avatar-btn" id="avatarBtn">
       <span id="avatarInitial">U</span>
@@ -648,7 +505,8 @@
             <tr><th>#</th><th>Item Description</th><th>Qty</th><th>Rate (₹)</th><th>Amount (₹)</th><th class="delete-col"></th> </>
           </thead>
           <tbody id="tableBody"></tbody>
-          <tfoot><tr style="background: #fef9e6; font-weight: 700;"><td colspan="4" align="right"><strong>TOTAL AMOUNT</strong>  ..<td id="total" style="font-size: 20px; font-weight: 800; color: #1e3a2f;">₹0.00</td><td class="delete-col"></td></tr></tfoot>
+          <tfoot><tr style="background: #fef9e6; font-weight: 700;"><td colspan="4" align="right"><strong>TOTAL AMOUNT</strong>  ..<td id="total" style="font-size: 20px; font-weight: 800; color: #1e3a2f;">₹0.00</td><td class="delete-col"></td></tr>
+          </tfoot>
         </table>
 
         <div id="qrArea" class="qr-section"><p><i class="fas fa-qrcode"></i> Scan & Pay via UPI</p><div id="qrcode"></div><p style="font-size:12px; margin-top:12px;">UPI: 7209076462-2@ybl</p></div>
@@ -677,7 +535,7 @@
   };
 
   import { initializeApp } from "firebase/app";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -686,6 +544,7 @@
   const loginPage = document.getElementById('loginPage');
   const billSystem = document.getElementById('billSystem');
   const loginBtn = document.getElementById('loginBtn');
+  const registerBtn = document.getElementById('registerBtn');
   const showRegisterLink = document.getElementById('showRegister');
   const showLoginLink = document.getElementById('showLogin');
   const loginContainer = document.getElementById('loginContainer');
@@ -710,13 +569,14 @@
     dropdownMenu.classList.toggle('show');
   });
 
+  // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
     if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
       dropdownMenu.classList.remove('show');
     }
   });
 
-  // Switch to Contact Admin
+  // Switch to Register
   showRegisterLink.addEventListener('click', (e) => {
     e.preventDefault();
     loginContainer.classList.remove('active');
@@ -748,7 +608,7 @@
       showToast('✅ Login successful!');
     } catch (error) {
       let errorMsg = 'Login failed! ';
-      if (error.code === 'auth/user-not-found') errorMsg += 'User not found. Please contact admin.';
+      if (error.code === 'auth/user-not-found') errorMsg += 'User not found. Please register.';
       else if (error.code === 'auth/wrong-password') errorMsg += 'Wrong password.';
       else if (error.code === 'auth/invalid-email') errorMsg += 'Invalid email format.';
       else errorMsg += error.message;
@@ -756,6 +616,50 @@
     } finally {
       loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
       loginBtn.disabled = false;
+    }
+  });
+
+  // Register Function
+  registerBtn.addEventListener('click', async () => {
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+    if (!email || !password || !confirmPassword) {
+      showToast('Please fill all fields', true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showToast('Passwords do not match!', true);
+      return;
+    }
+
+    if (password.length < 6) {
+      showToast('Password must be at least 6 characters', true);
+      return;
+    }
+
+    registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+    registerBtn.disabled = true;
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      showToast('✅ Account created! You can now login.');
+      registerContainer.classList.remove('active');
+      loginContainer.classList.add('active');
+      document.getElementById('loginEmail').value = email;
+      document.getElementById('loginPassword').value = '';
+    } catch (error) {
+      let errorMsg = 'Registration failed! ';
+      if (error.code === 'auth/email-already-in-use') errorMsg += 'Email already registered.';
+      else if (error.code === 'auth/invalid-email') errorMsg += 'Invalid email format.';
+      else if (error.code === 'auth/weak-password') errorMsg += 'Password too weak.';
+      else errorMsg += error.message;
+      showToast(errorMsg, true);
+    } finally {
+      registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+      registerBtn.disabled = false;
     }
   });
 
@@ -781,6 +685,7 @@
       const initial = email.charAt(0).toUpperCase();
       avatarInitial.textContent = initial;
       dropdownEmail.textContent = email;
+      // Initialize bill system after login
       initializeBillSystem();
     } else {
       loginPage.style.display = 'flex';
@@ -788,7 +693,9 @@
     }
   });
 
+  // Enter key handlers
   document.getElementById('loginPassword')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
+  document.getElementById('registerConfirmPassword')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') registerBtn.click(); });
 
   // ============ BILL SYSTEM CODE ============
   let billCounter = localStorage.getItem('prajapatiBillCounter');
@@ -924,6 +831,7 @@
     return address.replace(/,\s*$/, '');
   }
 
+  // ============ FIXED PDF FUNCTION - CONTENT TOP SE START ============
   async function generateAndSavePDF(){
     if(items.length===0){ alert("Bill mein koi item nahi!"); return false; }
     const loader = document.getElementById('loadingOverlay');
@@ -937,31 +845,65 @@
       qrArea.style.display = 'none';
       updateModalNoDisplay(); updateSrNoDisplay();
       
-      const canvas1 = await html2canvas(section1, { scale: 2.0, backgroundColor: '#fff', logging: false, useCORS: true });
-      const canvas2 = await html2canvas(section2, { scale: 2.0, backgroundColor: '#fff', logging: false, useCORS: true });
+      // Capture section1 (Header + Address)
+      const canvas1 = await html2canvas(section1, { 
+        scale: 2.0, 
+        backgroundColor: '#fff', 
+        logging: false, 
+        useCORS: true,
+        windowWidth: section1.scrollWidth,
+        windowHeight: section1.scrollHeight
+      });
+      
+      // Capture section2 (Items + QR)
+      const canvas2 = await html2canvas(section2, { 
+        scale: 2.0, 
+        backgroundColor: '#fff', 
+        logging: false, 
+        useCORS: true,
+        windowWidth: section2.scrollWidth,
+        windowHeight: section2.scrollHeight
+      });
+      
       qrArea.style.display = qrDisplay;
       
       const imgData1 = canvas1.toDataURL('image/jpeg', 1.0);
       const imgData2 = canvas2.toDataURL('image/jpeg', 1.0);
       const { jsPDF } = window.jspdf;
-      const imgWidth = 190;
+      const imgWidth = 190; // A4 width in mm
+      
+      // Calculate image heights
       const imgHeight1 = (canvas1.height * imgWidth) / canvas1.width;
       const imgHeight2 = (canvas2.height * imgWidth) / canvas2.width;
       
-      // Page 1: Auto height so full address fits
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [imgWidth + 20, imgHeight1 + 20], compress: false });
+      // Create PDF with A4 size for both pages
+      const pdf = new jsPDF({ 
+        orientation: 'portrait', 
+        unit: 'mm', 
+        format: 'a4',
+        compress: false
+      });
+      
+      // Page 1: Header + Address - Content top se start (yPos = 0)
       pdf.addImage(imgData1, 'JPEG', 10, 0, imgWidth, imgHeight1);
       
-      // Page 2: A4 size for items
+      // Page 2: Items + QR - Content top se start (yPos = 0)
       pdf.addPage('a4');
       pdf.addImage(imgData2, 'JPEG', 10, 0, imgWidth, imgHeight2);
       
       incrementBillCounter();
       pdf.save(`Bill_${document.getElementById('billNo').value}_${document.getElementById('custName').value || 'Customer'}.pdf`);
-      showToast('✅ PDF Bill saved! (Page 1: Full Address, Page 2: Items)');
+      showToast('✅ PDF Bill saved! (Content top se start)');
       return true;
-    } catch(e){ console.error(e); showToast('❌ Error generating PDF!', true); return false; }
-    finally{ document.getElementById('mainContainer').classList.remove('pdf-mode'); loader.style.display='none'; }
+    } catch(e){ 
+      console.error(e); 
+      showToast('❌ Error generating PDF!', true); 
+      return false; 
+    }
+    finally{ 
+      document.getElementById('mainContainer').classList.remove('pdf-mode'); 
+      loader.style.display='none'; 
+    }
   }
 
   document.getElementById('savePdfBtn').onclick = async ()=> await generateAndSavePDF();
