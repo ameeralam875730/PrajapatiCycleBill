@@ -785,8 +785,8 @@
       grandTotal += total;
       const row = document.createElement('tr');
       row.innerHTML = `<td style="font-weight:500;">${escapeHtml(item.name)}</td>
-                      <td>${item.qty}</td>
-                      <td>₹${item.price.toFixed(2)}</td>
+                       <td>${item.qty}</td>
+                       <td>₹${item.price.toFixed(2)}</td>
                       <td style="font-weight:600;">₹${total.toFixed(2)}</td>
                       <td class="delete-col"><button onclick="deleteItem(${idx})"><i class="fas fa-trash-alt"></i></button></td>`;
       tbody.appendChild(row);
@@ -842,8 +842,8 @@
     document.getElementById('mainContainer').classList.add('pdf-mode');
 
     try{
-      const section1 = document.getElementById('section1'); // header + address
-      const section2 = document.getElementById('section2'); // items
+      const section1 = document.getElementById('section1');
+      const section2 = document.getElementById('section2');
       const qrArea = document.getElementById('qrArea');
 
       let qrDisplay = qrArea.style.display;
@@ -855,48 +855,57 @@
       // ===== CANVAS =====
       const canvas1 = await html2canvas(section1, { 
         scale: 2,
-        useCORS: true,
-        scrollX: 0,
-        scrollY: 0,
-        width: section1.offsetWidth
+        useCORS: true
       });
 
       const canvas2 = await html2canvas(section2, { 
         scale: 2,
-        useCORS: true,
-        scrollX: 0,
-        scrollY: 0,
-        width: section2.offsetWidth
+        useCORS: true
       });
 
       qrArea.style.display = qrDisplay;
 
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p','mm','a4');
+
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 10;
+
+      const usableWidth = pageWidth - margin*2;
+      const usableHeight = pageHeight - margin*2;
+
+      // ===== SCALE CALCULATION =====
+      const imgHeight1 = (canvas1.height * usableWidth) / canvas1.width;
+
+      // 🔥 CUT HEIGHT (no blank space)
+      const finalHeight1 = Math.min(imgHeight1, usableHeight);
+
       const imgData1 = canvas1.toDataURL('image/jpeg', 1.0);
+
+      pdf.addImage(
+        imgData1,
+        'JPEG',
+        margin,
+        margin,
+        usableWidth,
+        finalHeight1
+      );
+
+      // ===== PAGE 2 =====
+      pdf.addPage();
+
+      const imgHeight2 = (canvas2.height * usableWidth) / canvas2.width;
       const imgData2 = canvas2.toDataURL('image/jpeg', 1.0);
 
-      const { jsPDF } = window.jspdf;
-
-      const margin = 10;
-      const pdfWidth = 210; // A4 width mm
-      const contentWidth = pdfWidth - (margin * 2);
-
-      // ===== HEIGHT CALCULATION =====
-      const height1 = (canvas1.height * contentWidth) / canvas1.width;
-      const height2 = (canvas2.height * contentWidth) / canvas2.width;
-
-      // 🔥 MAIN FIX: First page custom height (NO BLANK SPACE)
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: [pdfWidth, height1 + (margin * 2)]
-      });
-
-      // ===== PAGE 1 =====
-      pdf.addImage(imgData1, 'JPEG', margin, margin, contentWidth, height1);
-
-      // ===== PAGE 2 (A4 normal) =====
-      pdf.addPage('a4');
-      pdf.addImage(imgData2, 'JPEG', margin, margin, contentWidth, height2);
+      pdf.addImage(
+        imgData2,
+        'JPEG',
+        margin,
+        margin,
+        usableWidth,
+        imgHeight2
+      );
 
       incrementBillCounter();
 
