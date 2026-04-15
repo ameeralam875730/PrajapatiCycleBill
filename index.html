@@ -296,7 +296,7 @@
     }
     
     #bill-content {
-      padding: 25px 25px 20px 25px;
+      padding: 25px 25px 30px 25px;
       background: white;
       width: 100%;
     }
@@ -421,7 +421,9 @@
     @media print {
       .dropdown-section, .or-divider, .pincode-hint, .delete-items-section, .controls-section, .action-area, #qrBtn, #whatsappBtn, #savePdfBtn, .scroll-top, .modal, .user-menu { display: none !important; }
       body { padding: 0; margin: 0; background: white; }
-      #bill-content { padding: 0.15in; width: 100%; }
+      #bill-content { padding: 0; margin: 0; width: 100%; }
+      .container { box-shadow: none; margin: 0; border-radius: 0; }
+      .bill-header { margin: 0 0 15px 0; border-radius: 0; }
     }
     
     @media (max-width: 680px) {
@@ -555,7 +557,7 @@
           <div><label><i class="fas fa-user"></i> CUSTOMER NAME</label><input type="text" id="custName" placeholder="Enter customer name">
             <div class="golden-box" id="srNoBox" onclick="openModal('srModal')"><i class="fas fa-hashtag"></i><span>SR. NO.</span><span class="value-text" id="srNoValue"></span></div>
           </div>
-          <div><label><i class="fas fa-calendar-alt"></i> DATE</label><input type="text" id="dateInput" placeholder="DD MMM YYYY"></div>
+          <div><label><i class="fas fa-calendar-alt"></i> DATE</label><input type="text" id="dateInput"></div>
           <div><label><i class="fab fa-whatsapp"></i> WHATSAPP NO.</label><input type="tel" id="custMobile" placeholder="Enter WhatsApp number"></div>
         </div>
 
@@ -812,7 +814,7 @@
     let grandTotal = 0;
     
     if(items.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888; padding:30px;">No items added. Click "Add Item" to add products.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888; padding:30px;">No items added. Click "Add Item" to add products. </td></tr>';
     } else {
       items.forEach((item) => {
         const total = item.qty * item.price;
@@ -896,7 +898,7 @@
   }
 
   async function generateAndSavePDF(){
-    if(items.length===0){ 
+    if(items.length === 0){ 
       alert("Bill mein koi item nahi!"); 
       return false; 
     }
@@ -906,18 +908,24 @@
     document.getElementById('mainContainer').classList.add('pdf-mode');
 
     try{
-      const section1 = document.getElementById('section1');
-      const section2 = document.getElementById('section2');
+      const element = document.getElementById('bill-content');
       const qrArea = document.getElementById('qrArea');
-
       let qrDisplay = qrArea.style.display;
       qrArea.style.display = 'none';
 
       updateModalNoDisplay(); 
       updateSrNoDisplay();
 
-      const canvas1 = await html2canvas(section1, { scale: 2.5, useCORS: true, logging: false });
-      const canvas2 = await html2canvas(section2, { scale: 2.5, useCORS: true, logging: false });
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const canvas = await html2canvas(element, { 
+        scale: 2.5,
+        useCORS: true,
+        logging: false,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight,
+        backgroundColor: '#ffffff'
+      });
 
       qrArea.style.display = qrDisplay;
 
@@ -925,29 +933,40 @@
       const pdf = new jsPDF('p', 'mm', 'a4');
       
       const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
       const margin = 5;
       const imgWidth = pageWidth - (margin * 2);
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      const imgHeight1 = (canvas1.height * imgWidth) / canvas1.width;
-      const imgData1 = canvas1.toDataURL('image/jpeg', 0.98);
-      pdf.addImage(imgData1, 'JPEG', margin, margin, imgWidth, imgHeight1);
+      let position = margin;
+      let heightLeft = imgHeight;
+      let pageNum = 0;
       
-      pdf.addPage();
-      const imgHeight2 = (canvas2.height * imgWidth) / canvas2.width;
-      const imgData2 = canvas2.toDataURL('image/jpeg', 0.98);
-      pdf.addImage(imgData2, 'JPEG', margin, margin, imgWidth, imgHeight2);
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      
+      pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+      heightLeft -= (pageHeight - margin * 2);
+      pageNum++;
+      
+      while (heightLeft > 0) {
+        position = margin - (imgHeight * pageNum);
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+        heightLeft -= (pageHeight - margin * 2);
+        pageNum++;
+      }
 
       pdf.save(`Bill_${document.getElementById('billNo').value}_${document.getElementById('custName').value || 'Customer'}.pdf`);
       showToast('✅ PDF Bill saved!');
       return true;
 
     } catch(e){
-      console.error(e);
+      console.error('PDF Error:', e);
       showToast('❌ Error generating PDF!', true);
       return false;
     } finally{
       document.getElementById('mainContainer').classList.remove('pdf-mode');
-      loader.style.display='none';
+      loader.style.display = 'none';
     }
   }
 
