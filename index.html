@@ -21,7 +21,6 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    /* Login Page Styles */
     .login-page {
       min-height: 100vh;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -70,7 +69,6 @@
     .brand {
       text-align: center;
       margin-bottom: 30px;
-      animation: fadeInDown 0.8s ease;
     }
     
     .brand h1 {
@@ -88,7 +86,6 @@
       border-radius: 24px;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       overflow: hidden;
-      animation: fadeInUp 0.8s ease;
     }
     
     .card-header {
@@ -108,6 +105,11 @@
     .input-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 16px; }
     .input-wrapper input { width: 100%; padding: 14px 16px 14px 48px; border: 2px solid #e2e8f0; border-radius: 16px; font-family: 'Poppins', sans-serif; font-size: 14px; transition: all 0.3s ease; }
     .input-wrapper input:focus { outline: none; border-color: #f5cb5c; box-shadow: 0 0 0 3px rgba(245, 203, 92, 0.2); }
+    .input-wrapper input:disabled {
+      background: #f1f5f9;
+      color: #1e293b;
+      cursor: not-allowed;
+    }
     
     .btn { width: 100%; padding: 14px; border: none; border-radius: 16px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s ease; }
     .btn-primary { background: linear-gradient(135deg, #000000 0%, #2c2c2c 100%); color: #f5cb5c; border: 1px solid rgba(245, 203, 92, 0.3); }
@@ -119,9 +121,8 @@
     .switch-link a:hover { text-decoration: underline; }
     
     .form-container { display: none; }
-    .form-container.active { display: block; animation: fadeIn 0.5s ease; }
+    .form-container.active { display: block; }
     
-    /* Social Contact Cards */
     .social-contact {
       margin-top: 25px;
       padding-top: 20px;
@@ -181,16 +182,6 @@
     .social-card.facebook .social-icon { background: #1877f220; color: #1877f2; }
     .social-card.gmail .social-icon { background: #ea433520; color: #ea4335; }
     
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
-    .social-card { animation: fadeInUp 0.5s ease backwards; }
-    .social-card:nth-child(1) { animation-delay: 0.1s; }
-    .social-card:nth-child(2) { animation-delay: 0.2s; }
-    .social-card:nth-child(3) { animation-delay: 0.3s; }
-    .social-card:nth-child(4) { animation-delay: 0.4s; }
-    
     .access-message {
       text-align: center;
       padding: 20px;
@@ -204,7 +195,6 @@
     .access-message h3 { color: #1e3a2f; font-size: 18px; margin-bottom: 8px; }
     .access-message p { color: #64748b; font-size: 13px; }
     
-    /* Bill System Styles */
     .bill-system {
       display: none;
       background: linear-gradient(135deg, #e8eef2 0%, #d4dfe8 100%);
@@ -320,15 +310,15 @@
       border-radius: 0 0 35px 35px;
       border-bottom: 2px solid rgba(255,215,0,0.3);
     }
-    .bill-header h1 { font-size: 36px; font-family: 'Playfair Display', serif; color: #f5cb5c; margin-bottom: 8px; }
+    .bill-header h1 { font-size: 34px; font-family: 'Playfair Display', serif; color: #f5cb5c; margin-bottom: 8px; }
     .bill-header h1 .amp-normal { font-family: 'Poppins', sans-serif; font-weight: 500; }
-    .brand-tagline { font-size: 12px; opacity: 0.85; letter-spacing: 1px; margin-bottom: 15px; }
-    .brand-showcase { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 15px 0 8px; }
-    .brand-item { background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 40px; font-size: 10px; font-weight: 600; color: #fff; border: 1px solid rgba(245,203,92,0.3); display: inline-flex; align-items: center; gap: 6px; }
-    .brand-item i { color: #f5c542; font-size: 10px; }
-    .contact-details { font-size: 11px; margin-top: 12px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .contact-details span i { margin-right: 4px; color: #f5cb5c; }
-    .gst-row { margin-top: 10px; font-size: 10px; background: rgba(245,203,92,0.2); color: #f5cb5c; display: inline-block; padding: 4px 15px; border-radius: 40px; font-weight: 800; }
+    .brand-tagline { font-size: 11px; opacity: 0.85; letter-spacing: 1px; margin-bottom: 12px; }
+    .brand-showcase { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin: 12px 0 6px; }
+    .brand-item { background: rgba(255,255,255,0.08); padding: 3px 8px; border-radius: 40px; font-size: 9px; font-weight: 600; color: #fff; border: 1px solid rgba(245,203,92,0.3); display: inline-flex; align-items: center; gap: 5px; }
+    .brand-item i { color: #f5c542; font-size: 9px; }
+    .contact-details { font-size: 10px; margin-top: 10px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .contact-details span i { margin-right: 3px; color: #f5cb5c; }
+    .gst-row { margin-top: 8px; font-size: 9px; background: rgba(245,203,92,0.2); color: #f5cb5c; display: inline-block; padding: 3px 12px; border-radius: 40px; font-weight: 800; }
     
     .info-row {
       display: grid;
@@ -360,7 +350,10 @@
     .or-divider:before { left: 0; }
     .or-divider:after { right: 0; }
     .dropdown-section { background: #fef9e6; border-radius: 16px; padding: 12px; margin-top: 8px; }
-    .pdf-mode .dropdown-section, .pdf-mode .or-divider, .pdf-mode .pincode-hint { display: none !important; }
+    
+    .pdf-mode .dropdown-section, .pdf-mode .or-divider, .pdf-mode .pincode-hint,
+    .pdf-mode .delete-items-section, .pdf-mode .controls-section, .pdf-mode .action-area,
+    .pdf-mode .scroll-top { display: none !important; }
     
     .golden-box {
       background: linear-gradient(135deg, #fef9e6, #fff7e0);
@@ -396,12 +389,27 @@
     .controls { display: flex; gap: 10px; flex-wrap: wrap; }
     .controls input { flex: 1; padding: 12px 14px; border: 1.5px solid #e2e8f0; border-radius: 18px; font-size: 13px; }
     #addBtn { background: linear-gradient(135deg, #000, #2c2c2c); color: white; border: none; padding: 12px 28px; border-radius: 40px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-    .pdf-mode .controls-section, .pdf-mode .action-area, .pdf-mode .scroll-top { display: none !important; }
     
-    table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-    th { background: #1a1a1a; color: white; padding: 12px 10px; text-align: left; font-size: 12px; }
-    td { padding: 10px 10px; border-bottom: 1px solid #edf2f7; font-size: 13px; }
-    .delete-col button { background: none; border: none; font-size: 16px; cursor: pointer; color: #dc2626; }
+    .items-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .items-table th { background: #1a1a1a; color: #f5cb5c; padding: 12px 10px; text-align: left; font-size: 12px; }
+    .items-table td { padding: 10px 10px; border-bottom: 1px solid #edf2f7; font-size: 13px; vertical-align: middle; }
+    
+    .delete-items-section {
+      margin-top: 15px;
+      padding: 12px;
+      background: #fef9e6;
+      border-radius: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 15px;
+      justify-content: space-between;
+    }
+    .delete-label { font-size: 12px; font-weight: 600; color: #8B1E3F; }
+    .delete-select { padding: 8px 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 13px; min-width: 200px; }
+    .delete-item-btn { background: #dc2626; color: white; border: none; padding: 8px 20px; border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; }
+    .delete-item-btn:hover { background: #b91c1c; }
+    
     .qr-section { margin-top: 18px; text-align: center; padding: 18px; background: #fef9e6; border-radius: 24px; border: 1px solid #f5cb5c; display: none; }
     .action-area { padding: 20px 25px 25px; background: #fefefe; border-top: 2px solid #f1f5f9; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
     .btn-action { border: none; padding: 12px 24px; border-radius: 50px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; color: white; font-size: 13px; }
@@ -410,20 +418,22 @@
     #savePdfBtn { background: linear-gradient(135deg, #f39c12, #e67e22); }
     #qrBtn { background: linear-gradient(135deg, #3b4d5c, #1e2a36); }
     
-    @media print { 
-      .controls-section, .action-area, .delete-col, #qrBtn, #whatsappBtn, #savePdfBtn, .scroll-top, .modal, .dropdown-section, .or-divider, .pincode-hint, .user-menu { display: none !important; } 
-      body { padding: 0; margin: 0; background: white; } 
-      #bill-content { padding: 0.3in; }
-      table { page-break-inside: avoid; }
+    @media print {
+      .dropdown-section, .or-divider, .pincode-hint, .delete-items-section, .controls-section, .action-area, #qrBtn, #whatsappBtn, #savePdfBtn, .scroll-top, .modal, .user-menu { display: none !important; }
+      body { padding: 0; margin: 0; background: white; }
+      #bill-content { padding: 0.15in; width: 100%; }
     }
+    
     @media (max-width: 680px) {
-      .bill-header h1 { font-size: 28px; }
+      .bill-header h1 { font-size: 24px; }
       .btn-action { padding: 10px 16px; font-size: 11px; }
       .info-row, .address-grid { grid-template-columns: 1fr; }
       .social-grid { grid-template-columns: 1fr; }
       #bill-content { padding: 15px; }
-      .bill-header { margin: -15px -15px 15px -15px; padding: 25px 15px 20px 15px; }
+      .bill-header { margin: -15px -15px 15px -15px; padding: 20px 15px 18px 15px; }
       .container { border-radius: 20px; }
+      .delete-items-section { flex-direction: column; align-items: stretch; }
+      .delete-select { width: 100%; }
     }
   </style>
 </head>
@@ -447,13 +457,12 @@
         <p>Sign in to manage your bills</p>
       </div>
       <div class="card-body">
-        <!-- Login Form -->
         <div id="loginContainer" class="form-container active">
           <div class="form-group">
             <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
             <div class="input-wrapper">
               <i class="fas fa-envelope"></i>
-              <input type="email" id="loginEmail" placeholder="Enter your email">
+              <input type="email" id="loginEmail" value="prajapati@gmail.com" disabled readonly>
             </div>
           </div>
           <div class="form-group">
@@ -467,14 +476,12 @@
           <div class="switch-link">Don't have an account? <a id="showRegister">Contact Admin</a></div>
         </div>
         
-        <!-- Contact Admin Section -->
         <div id="registerContainer" class="form-container">
           <div class="access-message">
             <i class="fas fa-headset"></i>
             <h3>Contact Admin for Access</h3>
             <p>Please reach out to the administrator to get your login credentials</p>
           </div>
-          
           <div class="social-contact">
             <div class="social-title"><i class="fas fa-phone-alt"></i> Connect with Admin</div>
             <div class="social-grid">
@@ -490,13 +497,12 @@
                 <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
                 <div class="social-info"><div class="platform">Official Facebook</div><div class="handle">Prajapati Cycle</div></div>
               </a>
-              <a href="mailto:ameeralam875730@gmail.com?subject=Prajapati%20Cycle%20Bill%20System%20Access&body=Hi%20Admin%2C%20I%20need%20access%20to%20the%20bill%20system." target="_blank" class="social-card gmail">
+              <a href="mailto:ameeralam875730@gmail.com?subject=Prajapati%20Cycle%20Bill%20System%20Access&body=Hi%20Admin%2C%20I%20need%20access." target="_blank" class="social-card gmail">
                 <div class="social-icon"><i class="fas fa-envelope"></i></div>
                 <div class="social-info"><div class="platform">Official Gmail</div><div class="handle">ameeralam875730</div></div>
               </a>
             </div>
           </div>
-          
           <div class="switch-link">Already have an account? <a id="showLogin">Login</a></div>
         </div>
       </div>
@@ -549,7 +555,7 @@
           <div><label><i class="fas fa-user"></i> CUSTOMER NAME</label><input type="text" id="custName" placeholder="Enter customer name">
             <div class="golden-box" id="srNoBox" onclick="openModal('srModal')"><i class="fas fa-hashtag"></i><span>SR. NO.</span><span class="value-text" id="srNoValue"></span></div>
           </div>
-          <div><label><i class="fas fa-calendar-alt"></i> DATE</label><input type="text" id="dateInput" readonly style="background:#f1f5f9;"></div>
+          <div><label><i class="fas fa-calendar-alt"></i> DATE</label><input type="text" id="dateInput" placeholder="DD MMM YYYY"></div>
           <div><label><i class="fab fa-whatsapp"></i> WHATSAPP NO.</label><input type="tel" id="custMobile" placeholder="Enter WhatsApp number"></div>
         </div>
 
@@ -589,13 +595,26 @@
           </div>
         </div>
 
-        <table id="billTable">
+        <table class="items-table" id="billTable">
           <thead>
-            <tr><th>#</th><th>Item Description</th><th>Qty</th><th>Rate (₹)</th><th>Amount (₹)</th><th class="delete-col"></th> </>
-          </thead>
-          <tbody id="tableBody"></tbody>
-          <tfoot><tr style="background: #fef9e6; font-weight: 700;"><td colspan="4" align="right"><strong>TOTAL AMOUNT</strong>  ..<td id="total" style="font-size: 18px; font-weight: 800; color: #1e3a2f;">₹0.00</td><td class="delete-col"></td></tr></tfoot>
+            <tr><th>Item Description</th><th>Qty</th><th>Rate (₹)</th><th>Amount (₹)</th> </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="4" style="text-align:center; color:#888; padding:30px;">No items added. Click "Add Item" to add products. </td></tr>
+          </tbody>
+          <tfoot>
+            <tr style="background: #fef9e6; font-weight: 700;">
+              <td colspan="3" align="right"><strong>TOTAL AMOUNT</strong> ..<td id="total" style="font-size: 18px; font-weight: 800; color: #1e3a2f;">₹0.00</td>
+            </tr>
+          </tfoot>
         </table>
+
+        <div class="delete-items-section">
+          <span class="delete-label"><i class="fas fa-trash-alt"></i> Remove Item:</span>
+          <select id="deleteItemSelect" class="delete-select">
+            <option value="-1">-- Select Item to Delete --</option>
+          </select>
+          <button id="deleteSelectedBtn" class="delete-item-btn"><i class="fas fa-trash"></i> Delete Selected</button>
+        </div>
 
         <div id="qrArea" class="qr-section"><p><i class="fas fa-qrcode"></i> Scan & Pay via UPI</p><div id="qrcode"></div><p style="font-size:11px; margin-top:10px;">UPI: 7209076462-2@ybl</p></div>
       </div>
@@ -612,7 +631,6 @@
 </div>
 
 <script type="module">
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyB5PMe0R7QYyNXiH-SPMFW4gXaN7c37JWw",
     authDomain: "prajapaticyclebill.firebaseapp.com",
@@ -656,9 +674,9 @@
   showLoginLink.addEventListener('click', (e) => { e.preventDefault(); registerContainer.classList.remove('active'); loginContainer.classList.add('active'); });
 
   loginBtn.addEventListener('click', async () => {
-    const email = document.getElementById('loginEmail').value.trim();
+    const email = "prajapati@gmail.com";
     const password = document.getElementById('loginPassword').value;
-    if (!email || !password) { showToast('Please enter email and password', true); return; }
+    if (!password) { showToast('Please enter password', true); return; }
     loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging...';
     loginBtn.disabled = true;
     try {
@@ -666,7 +684,7 @@
       showToast('✅ Login successful!');
     } catch (error) {
       let errorMsg = 'Login failed! ';
-      if (error.code === 'auth/user-not-found') errorMsg += 'User not found. Please contact admin.';
+      if (error.code === 'auth/user-not-found') errorMsg += 'User not found.';
       else if (error.code === 'auth/wrong-password') errorMsg += 'Wrong password.';
       else errorMsg += error.message;
       showToast(errorMsg, true);
@@ -694,11 +712,15 @@
 
   document.getElementById('loginPassword')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
 
-  let billCounter = localStorage.getItem('prajapatiBillCounter');
-  if (!billCounter) { billCounter = 1; localStorage.setItem('prajapatiBillCounter', billCounter); }
-  function generateBillNumber() { return `PRAJAPATI-${String(billCounter).padStart(3, '0')}`; }
+  function generateBillNumber() { 
+    const randomNum = Math.floor(Math.random() * 9000) + 1000;
+    return `PRAJAPATI-${randomNum}`; 
+  }
   function updateBillNumber() { document.getElementById('billNo').value = generateBillNumber(); }
-  function incrementBillCounter() { billCounter++; localStorage.setItem('prajapatiBillCounter', billCounter); updateBillNumber(); }
+
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+  document.getElementById('dateInput').value = formattedDate;
 
   const saranData = {
     "MARHAURA": { "AMNOUR": ["AMNOUR HARNARAYAN","AMNOUR KALYAN","APHAR","BASATPUR","DHARHARA KHURD","DHARMPUR JAFAR","DHORLAHI KHAITHAL","HUSEPUR","KATSA","KOREYAN","MADARPUR","MANORPUR JHAKHARI","PAIGA MITRASEN","PARSA","RAIPURA","RASULPUR","SHEKHPURA","TARWAR"], "ISUAPUR": ["AATANAGAR","AGAUTHAR SUNDAR","CHAKAHAN","CHHAPIYA","DATRA PURSAULI","ISUAPUR","JAITHAR","KERWA","LAUWA","NIPANIYA","RAMCHAURA","RAMPUR ATAULI","SAHWAN"], "MARHAURAH": ["AGAHARA","AWARI","BAHUWARA PATTI","BARDAHIA","BHAWALPUR","BHUALPUR","GAURA","HASANPURA","HATHISAR","ISRAULI","MADHOPUR","MIRZAPUR","MUBARAKPUR","NARHAR PUR","NAUTAN","OLHANPUR","RAMPUR","RASULPUR","SALIMAPUR","SHILHAURI","TEJPURWA"], "MASHRAKH": ["ARANA","BAHRAULI","BANGRA","CHAND KUDARIYA","DUMARSHAN","DURGAULI","GANGAULI","JAJAULI","KARN KUDARIYA","KAWALPURA","KHAJURI","MADARPUR","NAWADA","SEMARI","SONAULI"], "PANAPUR": ["BAKWA","BASAHIYA","BELOR","BHORAHA","CHAKIYA","DHENUKI","KONDHA","MAHMAD PUR","RASAULI","SATJORA","TOTAHA JAGATPUR"], "TARAIYA": ["BHAGWATPUR","BHATGAI","CHAINPUR","CHANCHALIYA","DEODHI","DUMRI","MADHOPUR","NARAYANPUR","PACHBHINDA","PACHRAUR","POKHERARA","SARAIYA RATNAKAR","TARAIYA"] },
@@ -758,7 +780,6 @@
     }
   };
 
-  document.getElementById('dateInput').value = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
   let items = [{ name: "Hero Cycle Chain", qty: 2, price: 120 }, { name: "Steel Handle Grip", qty: 1, price: 85 }, { name: "PVC Pipe 1 inch", qty: 5, price: 45 }];
   let modalNoData = '', srNoData = '';
 
@@ -776,38 +797,82 @@
   document.getElementById('saveSrModalBtn').onclick = saveSrNo;
   window.onclick = e=>{ if(e.target.classList.contains('modal')) e.target.style.display='none'; };
 
+  function updateDeleteSelect() {
+    const select = document.getElementById('deleteItemSelect');
+    select.innerHTML = '<option value="-1">-- Select Item to Delete --</option>';
+    items.forEach((item, idx) => {
+      const total = item.qty * item.price;
+      select.innerHTML += `<option value="${idx}">${item.name} (Qty: ${item.qty}, ₹${total.toFixed(2)})</option>`;
+    });
+  }
+
   function renderTable(){
     const tbody = document.getElementById('tableBody');
     tbody.innerHTML = '';
     let grandTotal = 0;
-    items.forEach((item, idx) => {
-      const total = item.qty * item.price;
-      grandTotal += total;
-      const row = document.createElement('tr');
-      row.innerHTML = `<td style="font-weight:500;">${escapeHtml(item.name)}</td>
-                       <td>${item.qty}</td>
-                       <td>₹${item.price.toFixed(2)}</td>
-                      <td style="font-weight:600;">₹${total.toFixed(2)}</td>
-                      <td class="delete-col"><button onclick="deleteItem(${idx})"><i class="fas fa-trash-alt"></i></button></td>`;
-      tbody.appendChild(row);
-    });
+    
+    if(items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888; padding:30px;">No items added. Click "Add Item" to add products.</td></tr>';
+    } else {
+      items.forEach((item) => {
+        const total = item.qty * item.price;
+        grandTotal += total;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="font-weight:500;">${escapeHtml(item.name)}</td>
+          <td>${item.qty}</td>
+          <td>₹${item.price.toFixed(2)}</td>
+          <td style="font-weight:600;">₹${total.toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    
     document.getElementById('total').innerHTML = `₹${grandTotal.toFixed(2)}`;
+    updateDeleteSelect();
   }
 
-  window.deleteItem = function(i){ items.splice(i,1); renderTable(); };
-  document.getElementById('addBtn').onclick = ()=>{
+  document.getElementById('deleteSelectedBtn').onclick = () => {
+    const select = document.getElementById('deleteItemSelect');
+    const idx = parseInt(select.value);
+    if(idx === -1 || isNaN(idx)) { 
+      alert("Koi item select karo!"); 
+      return; 
+    }
+    items.splice(idx, 1);
+    renderTable();
+    showToast('✅ Item deleted successfully!');
+    select.value = "-1";
+  };
+
+  function addItemFromInputs() {
     const name = document.getElementById('itemName').value.trim();
     const qty = parseFloat(document.getElementById('itemQty').value);
     const price = parseFloat(document.getElementById('itemPrice').value);
-    if(!name){ alert("Item name dalo!"); return; }
-    if(isNaN(qty)||qty<=0){ alert("Sahi quantity dalo!"); return; }
-    if(isNaN(price)||price<=0){ alert("Sahi price dalo!"); return; }
+    if(!name){ alert("Item name dalo!"); return false; }
+    if(isNaN(qty)||qty<=0){ alert("Sahi quantity dalo!"); return false; }
+    if(isNaN(price)||price<=0){ alert("Sahi price dalo!"); return false; }
     items.push({name,qty,price});
     renderTable();
     document.getElementById('itemName').value = '';
     document.getElementById('itemQty').value = '1';
     document.getElementById('itemPrice').value = '';
-  };
+    showToast('✅ Item added!');
+    return true;
+  }
+
+  document.getElementById('addBtn').onclick = addItemFromInputs;
+
+  // Enter key press to add item
+  const itemInputs = ['itemName', 'itemQty', 'itemPrice'];
+  itemInputs.forEach(id => {
+    document.getElementById(id).addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addItemFromInputs();
+      }
+    });
+  });
 
   function escapeHtml(str){ return str.replace(/[&<>]/g, m=> m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
 
@@ -830,7 +895,6 @@
     return address.replace(/,\s*$/, '');
   }
 
-  // ============ REPLACED PDF FUNCTION ============
   async function generateAndSavePDF(){
     if(items.length===0){ 
       alert("Bill mein koi item nahi!"); 
@@ -852,69 +916,28 @@
       updateModalNoDisplay(); 
       updateSrNoDisplay();
 
-      // ===== CANVAS =====
-      const canvas1 = await html2canvas(section1, { 
-        scale: 2,
-        useCORS: true
-      });
-
-      const canvas2 = await html2canvas(section2, { 
-        scale: 2,
-        useCORS: true
-      });
+      const canvas1 = await html2canvas(section1, { scale: 2.5, useCORS: true, logging: false });
+      const canvas2 = await html2canvas(section2, { scale: 2.5, useCORS: true, logging: false });
 
       qrArea.style.display = qrDisplay;
 
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p','mm','a4');
-
-      const pageWidth = 210;
-      const pageHeight = 297;
-      const margin = 10;
-
-      const usableWidth = pageWidth - margin*2;
-      const usableHeight = pageHeight - margin*2;
-
-      // ===== SCALE CALCULATION =====
-      const imgHeight1 = (canvas1.height * usableWidth) / canvas1.width;
-
-      // 🔥 CUT HEIGHT (no blank space)
-      const finalHeight1 = Math.min(imgHeight1, usableHeight);
-
-      const imgData1 = canvas1.toDataURL('image/jpeg', 1.0);
-
-      pdf.addImage(
-        imgData1,
-        'JPEG',
-        margin,
-        margin,
-        usableWidth,
-        finalHeight1
-      );
-
-      // ===== PAGE 2 =====
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const margin = 5;
+      const imgWidth = pageWidth - (margin * 2);
+      
+      const imgHeight1 = (canvas1.height * imgWidth) / canvas1.width;
+      const imgData1 = canvas1.toDataURL('image/jpeg', 0.98);
+      pdf.addImage(imgData1, 'JPEG', margin, margin, imgWidth, imgHeight1);
+      
       pdf.addPage();
+      const imgHeight2 = (canvas2.height * imgWidth) / canvas2.width;
+      const imgData2 = canvas2.toDataURL('image/jpeg', 0.98);
+      pdf.addImage(imgData2, 'JPEG', margin, margin, imgWidth, imgHeight2);
 
-      const imgHeight2 = (canvas2.height * usableWidth) / canvas2.width;
-      const imgData2 = canvas2.toDataURL('image/jpeg', 1.0);
-
-      pdf.addImage(
-        imgData2,
-        'JPEG',
-        margin,
-        margin,
-        usableWidth,
-        imgHeight2
-      );
-
-      incrementBillCounter();
-
-      pdf.save(
-        `Bill_${document.getElementById('billNo').value}_${
-          document.getElementById('custName').value || 'Customer'
-        }.pdf`
-      );
-
+      pdf.save(`Bill_${document.getElementById('billNo').value}_${document.getElementById('custName').value || 'Customer'}.pdf`);
       showToast('✅ PDF Bill saved!');
       return true;
 
