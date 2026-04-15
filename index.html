@@ -724,6 +724,56 @@
   const formattedDate = today.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
   document.getElementById('dateInput').value = formattedDate;
 
+  // ========== AUTO CAPITALIZE FUNCTION ==========
+  function toProperCase(str) {
+    if (!str) return str;
+    return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+  }
+
+  // Apply auto capitalize on input fields
+  function setupAutoCapitalize(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.addEventListener('blur', function() {
+        if (this.value.trim()) {
+          this.value = toProperCase(this.value);
+        }
+      });
+      // Also apply on enter key
+      element.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          if (this.value.trim()) {
+            this.value = toProperCase(this.value);
+          }
+        }
+      });
+    }
+  }
+
+  // Setup all text fields for auto capitalize
+  setupAutoCapitalize('custName');
+  setupAutoCapitalize('itemName');
+  setupAutoCapitalize('fullAddress');
+  setupAutoCapitalize('subdivisionDisplay');
+  setupAutoCapitalize('blockDisplay');
+  setupAutoCapitalize('panchayatDisplay');
+  setupAutoCapitalize('pincode');
+
+  // Override autoDetectByPincode to also capitalize
+  const originalAutoDetect = window.autoDetectByPincode;
+  window.autoDetectByPincode = function() {
+    originalAutoDetect();
+    if (document.getElementById('subdivisionDisplay').value.trim()) {
+      document.getElementById('subdivisionDisplay').value = toProperCase(document.getElementById('subdivisionDisplay').value);
+    }
+    if (document.getElementById('blockDisplay').value.trim()) {
+      document.getElementById('blockDisplay').value = toProperCase(document.getElementById('blockDisplay').value);
+    }
+    if (document.getElementById('panchayatDisplay').value.trim()) {
+      document.getElementById('panchayatDisplay').value = toProperCase(document.getElementById('panchayatDisplay').value);
+    }
+  };
+
   const saranData = {
     "MARHAURA": { "AMNOUR": ["AMNOUR HARNARAYAN","AMNOUR KALYAN","APHAR","BASATPUR","DHARHARA KHURD","DHARMPUR JAFAR","DHORLAHI KHAITHAL","HUSEPUR","KATSA","KOREYAN","MADARPUR","MANORPUR JHAKHARI","PAIGA MITRASEN","PARSA","RAIPURA","RASULPUR","SHEKHPURA","TARWAR"], "ISUAPUR": ["AATANAGAR","AGAUTHAR SUNDAR","CHAKAHAN","CHHAPIYA","DATRA PURSAULI","ISUAPUR","JAITHAR","KERWA","LAUWA","NIPANIYA","RAMCHAURA","RAMPUR ATAULI","SAHWAN"], "MARHAURAH": ["AGAHARA","AWARI","BAHUWARA PATTI","BARDAHIA","BHAWALPUR","BHUALPUR","GAURA","HASANPURA","HATHISAR","ISRAULI","MADHOPUR","MIRZAPUR","MUBARAKPUR","NARHAR PUR","NAUTAN","OLHANPUR","RAMPUR","RASULPUR","SALIMAPUR","SHILHAURI","TEJPURWA"], "MASHRAKH": ["ARANA","BAHRAULI","BANGRA","CHAND KUDARIYA","DUMARSHAN","DURGAULI","GANGAULI","JAJAULI","KARN KUDARIYA","KAWALPURA","KHAJURI","MADARPUR","NAWADA","SEMARI","SONAULI"], "PANAPUR": ["BAKWA","BASAHIYA","BELOR","BHORAHA","CHAKIYA","DHENUKI","KONDHA","MAHMAD PUR","RASAULI","SATJORA","TOTAHA JAGATPUR"], "TARAIYA": ["BHAGWATPUR","BHATGAI","CHAINPUR","CHANCHALIYA","DEODHI","DUMRI","MADHOPUR","NARAYANPUR","PACHBHINDA","PACHRAUR","POKHERARA","SARAIYA RATNAKAR","TARAIYA"] },
     "SARAN SADAR": { "BANIAPUR": ["BANIYAPUR","BEDAULI","BHITHI SAHABUDDIN","BHUSHAW","DHANGARHA","DHAWRI","GOAPIPARPANTI","HARPUR","KAMTA","KANHAULI MANOHAR","KARAH","KARAHI","LAUWA KALA","MANIKPURA","MANOPALI","MARICHA","PAIGAMBAR PUR","PIRAUTA KHAS","PITHAURI","RAMDHNAW","SAHAJITPUR","SAREYA","SATUA","SISAI","SURAUDHA"], "CHHAPRA": ["BADALU TOLA","BARHARA MAHAJI","BHAIROPUR NIZAMAT","BISHUNPURA","CHIRAND","DUMARI","FAKULI","JALALPUR","KARINGA","KHALPURA BALA","KOTAWA PATTI RAMPUR","LOHARI","MAHARAJGANJ","MAUNA","MUSEPUR","NAINI","PURVI TELPA","RAIPUR BINGAWAN","SANDHA","SHERPUR GHEGHATA","TENUA"], "EKMA": ["AAMDADHI","ASAHANI","ATARSAN","BALIYA","BANPURA","BINDA LAL KE RAMPUR","CHANCHAURA","DAKSHINI PARSA","DEVPURA","EKSAR","FUCHATI KALA","HUSSEPUR","MANE","NAWADA","PANCHUA","PARSA PURVI","PARSA UTARI","RASULPUR"], "GARKHA": ["BAJIT PUR","FERUSA","GARKHA","HASAN PURA","ITWA","JALAL BASANT","KOTHIA","KUDARBADHA","MAHAMAD PUR","MAHAMDA","MAUZAM PUR","MIRPUR JUARA","MIRZA PUR","MITHE PUR","MOTIRAJPUR","MUKIMPUR","NARAON","PACHPATIA","PIRAUNA","RAM PUR","SADH PUR","SARGATTI","SRIPAL BASANT"], "JALALPUR": ["ANWAL","ASHOK NAGAR","BHATKESARI","BISHUNPURA","DEURIA","KISHUNPUR","KUMNA","MADHO PUR","NAWADA","RAMPUR NUR NAGAR","REWARI","SAMHOTA","SANWARI","SHANKARDIH"], "LAHLADPUR": ["BANPURA","BASAHI","DANDASPUR","DAYALPUR","KATEYA","KISHUNPUR LAUWAR","MIRZAPUR","PURUSHOTAMPUR"], "MAKER": ["BAGHA KOL","BHATHA","KAITUKA LACHHI","KAITUKA NANDAN","MAKER","PHULWARIYA","PIR MAKER","TARA AMANOUR"], "MANJHI": ["BALESHARA","BANGARA","BAREJA","BHAJAUNA NACHAP","BHALUA BUJURG","CHEFUL","DAUDPUR","DUMARI","ENAITPUR","GHORHAT","GOBARAHI","JAITPUR","KAURU DHAURU","LEGUAR","MADAN SATH","MAHAMMDPUR","MARAHAN","MATIYAR","MOBARAKPUR","NASIRA","SHITALPUR","SONBARSA","TAJPUR"], "NAGRA": ["APHAUR","DHUPNAGAR DHOBWAL","DUMARI","JAGADISHPUR","KADIPUR","KHAIRA","KOREYA","NAGRA","TAKIYA","TUJARPUR"], "PARSA": ["ANJANI","ANYAY","BAHAR MARAR","BALIGAWN","BANAUTA","BHELDI","CHANDPURA","MARAR","PACHALAKH","PACHRUKHI","PARSAUNA","SAGUNI","SOBHEPUR"], "REVELGANJ": ["DAKSHNIWARI CHAKKI","DILIYA RAHIM PUR","INAI","KACHANAR","KHAIRWAR","MOHABBAT PARSA","MUKRERA","SITAB DIYARA","TEKNIWAS"] },
@@ -738,9 +788,9 @@
     const pincode = document.getElementById('pincode').value.trim();
     if(pincode.length === 6 && pincodeDatabase[pincode]) {
       const data = pincodeDatabase[pincode];
-      document.getElementById('subdivisionDisplay').value = data.subdivision;
-      document.getElementById('blockDisplay').value = data.block;
-      document.getElementById('panchayatDisplay').value = data.panchayat;
+      document.getElementById('subdivisionDisplay').value = toProperCase(data.subdivision);
+      document.getElementById('blockDisplay').value = toProperCase(data.block);
+      document.getElementById('panchayatDisplay').value = toProperCase(data.panchayat);
       showToast(`✅ ${data.panchayat}, ${data.block}, ${data.subdivision}`);
     } else if(pincode.length === 6 && !pincodeDatabase[pincode]) {
       showToast('❌ Pincode not found! Please enter manually.', true);
@@ -767,7 +817,7 @@
     const block = document.getElementById('blockSelect').value;
     const panchayatSelect = document.getElementById('panchayatSelect');
     panchayatSelect.innerHTML = '<option value="">-- Select Panchayat --</option>';
-    if(subdivision && block && saranData[subdivision] && saranData[subdivision][block]) saranData[subdivision][block].forEach(p => panchayatSelect.innerHTML += `<option value="${p}">${p}</option>`);
+    if(subdivision && block && saranData[subdivision] && saranData[subdivision][block]) saranData[subdivision][block].forEach(p => panchayatSelect.innerHTML += `<option value="${toProperCase(p)}">${toProperCase(p)}</option>`);
   };
 
   window.setAddressFromDropdown = function() {
@@ -775,9 +825,9 @@
     const block = document.getElementById('blockSelect').value;
     const panchayat = document.getElementById('panchayatSelect').value;
     if(panchayat) {
-      document.getElementById('subdivisionDisplay').value = subdivision;
-      document.getElementById('blockDisplay').value = block;
-      document.getElementById('panchayatDisplay').value = panchayat;
+      document.getElementById('subdivisionDisplay').value = toProperCase(subdivision);
+      document.getElementById('blockDisplay').value = toProperCase(block);
+      document.getElementById('panchayatDisplay').value = toProperCase(panchayat);
       showToast(`✅ ${panchayat}, ${block}, ${subdivision} selected`);
     }
   };
@@ -821,7 +871,7 @@
         grandTotal += total;
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td style="font-weight:500;">${escapeHtml(item.name)}</td>
+          <td style="font-weight:500;">${escapeHtml(toProperCase(item.name))}</td>
           <td>${item.qty}</td>
           <td>₹${item.price.toFixed(2)}</td>
           <td style="font-weight:600;">₹${total.toFixed(2)}</td>
@@ -848,12 +898,13 @@
   };
 
   function addItemFromInputs() {
-    const name = document.getElementById('itemName').value.trim();
+    let name = document.getElementById('itemName').value.trim();
     const qty = parseFloat(document.getElementById('itemQty').value);
     const price = parseFloat(document.getElementById('itemPrice').value);
     if(!name){ alert("Item name dalo!"); return false; }
     if(isNaN(qty)||qty<=0){ alert("Sahi quantity dalo!"); return false; }
     if(isNaN(price)||price<=0){ alert("Sahi price dalo!"); return false; }
+    name = toProperCase(name);
     items.push({name,qty,price});
     renderTable();
     document.getElementById('itemName').value = '';
@@ -881,12 +932,18 @@
   document.getElementById('qrBtn').onclick = ()=>{ showToast('⚠️ UPI ID Set Nahi Hai!', true); document.getElementById('qrArea').style.display = 'none'; };
 
   function getFullAddress() {
-    const full = document.getElementById('fullAddress').value.trim();
-    const panchayat = document.getElementById('panchayatDisplay').value.trim();
-    const block = document.getElementById('blockDisplay').value.trim();
-    const subdivision = document.getElementById('subdivisionDisplay').value.trim();
+    let full = document.getElementById('fullAddress').value.trim();
+    let panchayat = document.getElementById('panchayatDisplay').value.trim();
+    let block = document.getElementById('blockDisplay').value.trim();
+    let subdivision = document.getElementById('subdivisionDisplay').value.trim();
     const district = document.getElementById('districtDisplay').value.trim();
     const pincode = document.getElementById('pincode').value.trim();
+    
+    full = toProperCase(full);
+    panchayat = toProperCase(panchayat);
+    block = toProperCase(block);
+    subdivision = toProperCase(subdivision);
+    
     let address = '';
     if(full) address += full + ', ';
     if(panchayat) address += panchayat + ', ';
@@ -974,7 +1031,7 @@
 
   document.getElementById('whatsappBtn').onclick = ()=>{
     const mobile = document.getElementById('custMobile').value.trim();
-    const name = document.getElementById('custName').value.trim() || "Customer";
+    let name = document.getElementById('custName').value.trim() || "Customer";
     const billNo = document.getElementById('billNo').value;
     const modal = modalNoData ? ` (Modal: ${modalNoData})` : '';
     const sr = srNoData ? ` (SR: ${srNoData})` : '';
@@ -982,6 +1039,7 @@
     const total = document.getElementById('total').innerText;
     if(!mobile){ alert("WhatsApp number daalein!"); return; }
     if(items.length===0){ alert("Bill mein koi item nahi!"); return; }
+    name = toProperCase(name);
     let cleanMobile = mobile.replace(/\s/g,'');
     if(cleanMobile.startsWith('0')) cleanMobile = '91'+cleanMobile.substring(1);
     if(!cleanMobile.startsWith('91') && cleanMobile.length===10) cleanMobile='91'+cleanMobile;
